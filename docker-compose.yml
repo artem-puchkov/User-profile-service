@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15.3-alpine
+    container_name: postgres15
+    environment:
+      POSTGRES_DB: "iprody"
+      POSTGRES_USER: "iprody"
+      POSTGRES_PASSWORD: "secret"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: team3@iprody.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+    volumes:
+      - ./pgadmin4/data:/var/lib/pgadmin
+    ports:
+      - "8888:80"
+    restart: always
+    depends_on:
+      - postgres
+
+  user-profile-service:
+    container_name: user-profile-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
