@@ -6,6 +6,8 @@ plugins {
     id 'maven-publish'
 }
 
+apply from: 'version.gradle'
+
 group = 'com.iprody.user.profile'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
@@ -43,14 +45,15 @@ publishing {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation "org.postgresql:postgresql"
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${versions.springdoc}"
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    testImplementation "org.assertj:assertj-core"
-    testImplementation "org.junit.jupiter:junit-jupiter-api"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
 }
 
 tasks.named('test') {
