@@ -2,7 +2,8 @@ package com.iprody.user.profile.controller;
 
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.dto.UserDto;
-import com.iprody.user.profile.service.UserProfileService;
+import com.iprody.user.profile.service.UserDetailsService;
+import com.iprody.user.profile.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -37,13 +38,14 @@ class UserProfileControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
-
     @MockBean
-    private UserProfileService userProfileService;
+    private UserService userService;
+    @MockBean
+    private UserDetailsService userDetailsService;
 
     @Test
     void createUserShouldReturnStatus201WhenSuccessful() {
-        when(userProfileService.createUser(getValidUserDto())).thenReturn(Mono.just(getValidUserDtoWithId()));
+        when(userService.save(getValidUserDto())).thenReturn(Mono.just(getValidUserDtoWithId()));
 
         webTestClient
                 .post()
@@ -58,7 +60,6 @@ class UserProfileControllerTest {
     @ParameterizedTest
     @MethodSource("com.iprody.user.profile.controller.DummyUserFactory#getInvalidUserDtoArguments")
     void createInvalidUserShouldReturnStatus400(UserDto userDto) {
-
         webTestClient
                 .post()
                 .uri(PATH_USERS)
@@ -70,8 +71,7 @@ class UserProfileControllerTest {
 
     @Test
     void updateUserShouldReturnStatus200WhenSuccessful() {
-
-        when(userProfileService.updateUser(any(UserDto.class)))
+        when(userService.updateUser(any(UserDto.class)))
                 .thenReturn(Mono.just(getValidUserDtoWithId()));
 
         webTestClient
@@ -86,8 +86,7 @@ class UserProfileControllerTest {
 
     @Test
     void updateUserShouldReturnStatus404WhenUserDoesNotExist() {
-
-        when(userProfileService.updateUser(any(UserDto.class)))
+        when(userService.updateUser(any(UserDto.class)))
                 .thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
 
         webTestClient
@@ -113,7 +112,7 @@ class UserProfileControllerTest {
 
     @Test
     void updateUserDetailsShouldReturnStatus200WhenSuccessful() {
-        when(userProfileService.updateUserDetails(any(UserDetailsDto.class)))
+        when(userDetailsService.update(any(UserDetailsDto.class)))
                 .thenReturn(Mono.just(getValidUserDetailsDtoWithId()));
 
         webTestClient
@@ -128,7 +127,7 @@ class UserProfileControllerTest {
 
     @Test
     void updateUserDetailsShouldReturnStatus404WhenNotFound() {
-        when(userProfileService.updateUserDetails(any(UserDetailsDto.class)))
+        when(userDetailsService.update(any(UserDetailsDto.class)))
                 .thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
 
         webTestClient
@@ -154,7 +153,7 @@ class UserProfileControllerTest {
 
     @Test
     void findUserShouldReturnStatus200WhenSuccessful() {
-        when(userProfileService.findUser(anyLong()))
+        when(userService.findUser(anyLong()))
                 .thenReturn(Mono.just(getValidUserDtoWithId()));
 
         webTestClient
@@ -167,7 +166,7 @@ class UserProfileControllerTest {
 
     @Test
     void findUserShouldReturnStatus404WhenNotFound() {
-        when(userProfileService.findUser(anyLong()))
+        when(userService.findUser(anyLong()))
                 .thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
 
         webTestClient
@@ -179,7 +178,7 @@ class UserProfileControllerTest {
 
     @Test
     void findUserDetailsShouldReturnStatus200WhenSuccessful() {
-        when(userProfileService.findUserDetails(anyLong()))
+        when(userDetailsService.findByUserId(anyLong()))
                 .thenReturn(Mono.just(getValidUserDetailsDtoWithId()));
 
         webTestClient
@@ -192,7 +191,7 @@ class UserProfileControllerTest {
 
     @Test
     void findUserDetailsShouldReturnStatus404WhenNotFound() {
-        when(userProfileService.findUserDetails(anyLong()))
+        when(userDetailsService.findByUserId(anyLong()))
                 .thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
 
         webTestClient

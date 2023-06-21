@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Mikhail
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: created
+                  type: timestamp
+              - column:
+                  name: updated
+                  type: timestamp
+              - column:
+                  name: status
+                  type: varchar(255)

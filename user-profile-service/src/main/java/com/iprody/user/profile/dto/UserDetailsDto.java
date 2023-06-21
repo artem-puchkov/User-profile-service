@@ -9,15 +9,15 @@ import lombok.Builder;
  * @param telegramId  Cannot be null and must contain at least one non-whitespace character
  * @param mobilePhone Must match
  *                    <a href="https://www.twilio.com/docs/glossary/what-e164">E.164 format</a>
+ * @param userId      Id of corresponding user
  */
 @Builder
 public record UserDetailsDto(
-
         Long id,
-
         @NotBlank
         String telegramId,
-
         @Pattern(regexp = "^\\+[1-9]\\d{1,14}$")
-        String mobilePhone) {
+        String mobilePhone,
+        Long userId
+) {
 }

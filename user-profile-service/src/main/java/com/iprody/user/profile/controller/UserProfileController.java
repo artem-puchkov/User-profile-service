@@ -2,7 +2,8 @@ package com.iprody.user.profile.controller;
 
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.dto.UserDto;
-import com.iprody.user.profile.service.UserProfileService;
+import com.iprody.user.profile.service.UserDetailsService;
+import com.iprody.user.profile.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,10 +28,14 @@ import reactor.core.publisher.Mono;
 public final class UserProfileController {
 
     /**
-     * Injection of mock service.
-     * Service is not implemented yet.
+     * Injection of service with business logic of userDetails.
      */
-    private UserProfileService userProfileService;
+    private UserDetailsService userDetailsService;
+    /**
+     * Injection of service with business logic of user.
+     * (Should be implemented in different task)
+     */
+    private UserService userService;
 
     /**
      * @param userDto {@link UserDto} without id for user creation
@@ -39,7 +44,7 @@ public final class UserProfileController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
-        return userProfileService.createUser(userDto);
+        return userService.save(userDto);
     }
 
     /**
@@ -51,7 +56,7 @@ public final class UserProfileController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDto> updateUser(@PathVariable long id,
                                     @RequestBody @Valid UserDto userDto) {
-        return userProfileService.updateUser(userDto);
+        return userService.updateUser(userDto);
     }
 
     /**
@@ -64,7 +69,7 @@ public final class UserProfileController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDetailsDto> updateUserDetails(@PathVariable long id,
                                                   @RequestBody @Valid UserDetailsDto userDetailsDto) {
-        return userProfileService.updateUserDetails(userDetailsDto);
+        return userDetailsService.update(userDetailsDto);
     }
 
     /**
@@ -74,7 +79,7 @@ public final class UserProfileController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDto> findUser(@PathVariable long id) {
-        return userProfileService.findUser(id);
+        return userService.findUser(id);
     }
 
     /**
@@ -84,6 +89,6 @@ public final class UserProfileController {
     @GetMapping("/{id}/details")
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDetailsDto> findUserDetails(@PathVariable long id) {
-        return userProfileService.findUserDetails(id);
+        return userDetailsService.findByUserId(id);
     }
 }

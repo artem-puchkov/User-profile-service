@@ -1,9 +1,9 @@
 package com.iprody.user.profile.dto;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
@@ -18,21 +18,18 @@ import lombok.Builder;
  */
 @Builder
 public record UserDto(
-
         Long id,
-
         @NotBlank
         @Size(max = 30)
         String firstName,
-
         @NotBlank
         @Size(max = 30)
         String lastName,
-
-        @Email
-        @NotEmpty
+        @NotNull
+        @Pattern(regexp = "^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$")
         String email,
-
         @Valid
-        UserDetailsDto userDetailsDto) {
+        @NotNull
+        UserDetailsDto userDetailsDto
+) {
 }

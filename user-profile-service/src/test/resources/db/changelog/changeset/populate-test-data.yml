@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: populate-user-test-data
+      author: Stas
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: "Test"
+              - column:
+                  name: last_name
+                  value: "User"
+              - column:
+                  name: email
+                  value: "test@test.com"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: "Test2"
+              - column:
+                  name: last_name
+                  value: "User2"
+              - column:
+                  name: email
+                  value: "test2@test.com"
+  - changeSet:
+      id: populate-user-details-test-data
+      author: Mikhail
+      changes:
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: user_id
+                  value: "1"
+              - column:
+                  name: telegram_id
+                  value: "@user"
+              - column:
+                  name: mobile_phone
+                  value: "+111111"
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: user_id
+                  value: "2"
+              - column:
+                  name: telegram_id
+                  value: "@user2"

@@ -6,8 +6,6 @@ plugins {
     id 'maven-publish'
 }
 
-
-
 group = 'com.iprody.user.profile'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
@@ -71,10 +69,9 @@ subprojects {
     }
 
 
-
     tasks.withType(Test).configureEach {
         useJUnitPlatform()
-        }
+    }
 }
 
 bootJar {
