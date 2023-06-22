@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-details
+      author: Marat
+      changes:
+        - createTable:
+            tableName: user_details
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: created
+                  type: timestamp
+              - column:
+                  name: updated
+                  type: timestamp
+              - column:
+                  name: telegram_id
+                  type: varchar(255)
+              - column:
+                  name: mobile_phone
+                  type: varchar(255)
+              - column:
+                  name: status
+                  type: varchar(255)
