@@ -45,7 +45,19 @@ subprojects {
                 }
             }
         }
+
+        repositories {
+            maven {
+                name = "GitHub"
+                url = uri("https://maven.pkg.github.com/iPrody/user-profile-gr00003")
+                credentials {
+                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
     }
+
     repositories {
         mavenCentral()
         maven {
@@ -57,6 +69,7 @@ subprojects {
             }
         }
     }
+
 
 
     tasks.withType(Test).configureEach {
