@@ -1,1 +1,4 @@
-rootProject.name = 'user-profile-service'
+rootProject.name = 'user-profile'
+include 'e2e'
+include 'user-profile-service'
+

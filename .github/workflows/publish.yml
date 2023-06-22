@@ -1,4 +1,4 @@
-name: Validate Pull Request
+name: Publish artifact
 
 on:
   pull_request:
@@ -12,6 +12,7 @@ jobs:
     name: Publish artifact
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
@@ -26,15 +27,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+      - name: Run build with Gradle Wrapper
+        run: ./gradlew :user-profile-service:build
 
       - name: Publish to GitHub Packages
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: publish
+        run: ./gradlew :user-profile-service:publish
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

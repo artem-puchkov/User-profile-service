@@ -6,7 +6,7 @@ plugins {
     id 'maven-publish'
 }
 
-apply from: 'version.gradle'
+
 
 group = 'com.iprody.user.profile'
 version = '0.0.1-SNAPSHOT'
@@ -16,22 +16,38 @@ repositories {
     mavenCentral()
 }
 
-publishing {
-    publications {
-        github(MavenPublication) {
-            artifactId = 'user-profile-service'
-            from components.java
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
+subprojects {
+
+    group 'com.iprody.user.profile'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '17'
+
+    apply from: "$rootProject.projectDir/version.gradle"
+
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'checkstyle'
+    apply plugin: 'maven-publish'
+    apply plugin: 'java'
+
+    publishing {
+        publications {
+            github(MavenPublication) {
+                artifactId = 'user-profile-service'
+                from components.java
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
                 }
             }
         }
     }
     repositories {
+        mavenCentral()
         maven {
             name = "GitHub"
             url = uri("https://maven.pkg.github.com/iPrody/user-profile-gr00003")
@@ -41,25 +57,17 @@ publishing {
             }
         }
     }
+
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+        }
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation "org.postgresql:postgresql"
-    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${versions.springdoc}"
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compileOnly "org.projectlombok:lombok"
-    annotationProcessor "org.projectlombok:lombok"
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
-    testImplementation "org.assertj:assertj-core"
-    testImplementation "org.junit.jupiter:junit-jupiter-api"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-    implementation 'org.liquibase:liquibase-core'
+bootJar {
+    enabled = false
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+jar {
+    enabled = true
 }
