@@ -1,4 +1,4 @@
-package com.iprody.user.profile.e2e;
+package com.iprody.user.profile.e2e.cucumber;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

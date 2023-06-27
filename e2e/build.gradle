@@ -1,15 +1,45 @@
-ext {
-    cucumberVersion = '7.12.1'
+plugins {
+    id "org.openapi.generator" version '6.6.0'
+}
+
+compileJava.dependsOn tasks.named("openApiGenerate")
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir}/generated/src/main/java"
+        }
+    }
+}
+
+openApiGenerate {
+    generatorName.set("java")
+    inputSpec.set("$projectDir/specs/openapi.json")
+    outputDir.set("$buildDir/generated")
+    apiPackage.set("com.iprody.user.profile.e2e.generated.api")
+    invokerPackage.set("com.iprody.user.profile.e2e.generated.invoker")
+    modelPackage.set("com.iprody.user.profile.e2e.generated.model")
+    generateApiTests.set(false)
+    generateModelTests.set(false)
+    configOptions.set([
+            dateLibrary: "java17",
+            library: "resttemplate",
+            interfaceOnly: "true",
+            useJakartaEe: "true",
+            generateClientAsBean: "true",
+            additionalModelTypeAnnotations: "@lombok.AllArgsConstructor; @lombok.Builder"
+    ])
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.openapitools:jackson-databind-nullable:${versions.jacksonNullable}"
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${versions.springdoc}"
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
-    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
-    testImplementation "io.cucumber:cucumber-junit-platform-engine:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-spring:${versions.cucumber}"
+    testImplementation "io.cucumber:cucumber-java:${versions.cucumber}"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:${versions.cucumber}"
     testImplementation 'org.junit.platform:junit-platform-suite'
-
 }

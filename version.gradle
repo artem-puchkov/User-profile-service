@@ -1,6 +1,9 @@
 ext {
     versions = [
-            'springdoc'     : '2.1.0',
+            'springdoc': '2.1.0',
+            'cucumber': '7.12.1',
+            'openapi': '6.6.0',
+            'jacksonNullable': '0.2.1',
             'mapstruct'     : '1.5.5.Final',
             'testcontainers': '1.18.3'
     ]
