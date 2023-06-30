@@ -4,8 +4,6 @@ import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.entity.User;
 import com.iprody.user.profile.entity.UserDetails;
 import com.iprody.user.profile.persistence.UserDetailsRepository;
-import com.iprody.user.profile.service.mapper.UserDetailsMapper;
-import com.iprody.user.profile.service.mapper.util.UserDetailsUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -71,7 +69,7 @@ class UserDetailsServiceTest {
 
     @Test
     void updateUserDetailsSuccess() {
-        final UserDetails mergedUserDetails = UserDetailsUtils.merge(USER_DETAILS, USER_DETAILS_NEW);
+        final UserDetails mergedUserDetails = UserMergeUtils.merge(USER_DETAILS, USER_DETAILS_NEW);
 
         when(userDetailsRepository.findByUserId(USER_ID)).thenReturn(Optional.of(USER_DETAILS));
         when(userDetailsMapper.toBusinessModel(USER_DETAILS_DTO_NEW)).thenReturn(USER_DETAILS_NEW);

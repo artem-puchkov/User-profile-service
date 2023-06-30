@@ -1,4 +1,4 @@
-package com.iprody.user.profile.integration;
+package com.iprody.user.profile.service;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

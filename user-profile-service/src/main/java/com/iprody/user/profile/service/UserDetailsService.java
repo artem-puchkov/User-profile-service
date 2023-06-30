@@ -3,8 +3,6 @@ package com.iprody.user.profile.service;
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.entity.UserDetails;
 import com.iprody.user.profile.persistence.UserDetailsRepository;
-import com.iprody.user.profile.service.mapper.UserDetailsMapper;
-import com.iprody.user.profile.service.mapper.util.UserDetailsUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -42,7 +40,7 @@ public class UserDetailsService {
                 .map(Optional::get)
                 .map(userDetailsForUpdate -> {
                     final UserDetails userDetailsFrom = userDetailsMapper.toBusinessModel(userDetailsDto);
-                    return UserDetailsUtils.merge(userDetailsForUpdate, userDetailsFrom);
+                    return UserMergeUtils.merge(userDetailsForUpdate, userDetailsFrom);
                 })
                 .map(userDetailsRepository::save)
                 .map(userDetailsMapper::toDto)

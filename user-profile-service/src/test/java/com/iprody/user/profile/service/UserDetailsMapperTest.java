@@ -1,9 +1,8 @@
-package com.iprody.user.profile.mapper;
+package com.iprody.user.profile.service;
 
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.entity.User;
 import com.iprody.user.profile.entity.UserDetails;
-import com.iprody.user.profile.service.mapper.UserDetailsMapper;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.iprody.user.profile.service.mapper;
+package com.iprody.user.profile.service;
 
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.entity.User;

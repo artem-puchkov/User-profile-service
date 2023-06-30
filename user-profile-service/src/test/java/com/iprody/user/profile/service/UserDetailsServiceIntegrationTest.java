@@ -1,8 +1,6 @@
-package com.iprody.user.profile.integration.service;
+package com.iprody.user.profile.service;
 
 import com.iprody.user.profile.dto.UserDetailsDto;
-import com.iprody.user.profile.integration.IProdyIntegrationTest;
-import com.iprody.user.profile.service.UserDetailsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
