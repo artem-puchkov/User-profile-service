@@ -21,3 +21,7 @@ management:
   endpoint:
     health:
       show-details: always
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    url: openapi.json
