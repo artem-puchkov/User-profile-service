@@ -12,3 +12,12 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yml
     enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: liquibase, health, prometheus
+  endpoint:
+    health:
+      show-details: always
