@@ -14,9 +14,9 @@ import lombok.Builder;
 @Builder
 public record UserDetailsDto(
         Long id,
-        @NotBlank
+        @NotBlank(message = "Telegram field should not be empty")
         String telegramId,
-        @Pattern(regexp = "^\\+[1-9]\\d{1,14}$")
+        @Pattern(regexp = "^\\+[1-9]\\d{1,14}$", message = "Mobile phone number is incorrect")
         String mobilePhone,
         Long userId
 ) {

@@ -19,14 +19,15 @@ import lombok.Builder;
 @Builder
 public record UserDto(
         Long id,
-        @NotBlank
-        @Size(max = 30)
+        @NotBlank(message = "First name should not be empty")
+        @Size(max = 30, message = "First name should not be longer than 30")
         String firstName,
-        @NotBlank
-        @Size(max = 30)
+        @NotBlank(message = "Last name should not be empty")
+        @Size(max = 30, message = "Last name should not be longer than 30")
         String lastName,
-        @NotNull
-        @Pattern(regexp = "^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$")
+        @NotNull(message = "Email field should not be empty")
+        @Pattern(regexp = "^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$",
+                message = "Email field should be like: user@domain.com")
         String email,
         @Valid
         @NotNull

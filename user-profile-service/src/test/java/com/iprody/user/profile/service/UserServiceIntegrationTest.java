@@ -2,8 +2,8 @@ package com.iprody.user.profile.service;
 
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.dto.UserDto;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
+import com.iprody.user.profile.util.ResourceNotFoundException;
+import com.iprody.user.profile.util.ResourceProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -72,7 +72,7 @@ class UserServiceIntegrationTest {
 
         StepVerifier.create(userService.save(newUserDto))
                 .expectErrorSatisfies(throwable -> softly.assertThat(throwable)
-                        .isInstanceOf(EntityExistsException.class)
+                        .isInstanceOf(ResourceProcessingException.class)
                         .hasMessage(ENTITY_EXISTS_MESSAGE))
                 .verify();
     }
@@ -103,7 +103,7 @@ class UserServiceIntegrationTest {
 
         StepVerifier.create(userService.updateUser(userDto))
                 .expectErrorSatisfies(throwable -> softly.assertThat(throwable)
-                        .isInstanceOf(EntityNotFoundException.class)
+                        .isInstanceOf(ResourceNotFoundException.class)
                         .hasMessage(USER_NOT_FOUND_MESSAGE))
                 .verify();
     }
@@ -123,7 +123,7 @@ class UserServiceIntegrationTest {
     void WhenFindUserNotFound(SoftAssertions softly) {
         StepVerifier.create(userService.findUser(NON_EXISTENT_USER_ID))
                 .expectErrorSatisfies(throwable -> softly.assertThat(throwable)
-                        .isInstanceOf(EntityNotFoundException.class)
+                        .isInstanceOf(ResourceNotFoundException.class)
                         .hasMessage(USER_NOT_FOUND_MESSAGE))
                 .verify();
     }

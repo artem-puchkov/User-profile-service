@@ -3,7 +3,7 @@ package com.iprody.user.profile.service;
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.entity.UserDetails;
 import com.iprody.user.profile.persistence.UserDetailsRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.iprody.user.profile.util.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @FieldDefaults(makeFinal = true)
 public class UserDetailsService {
     /**
-     * Error message if userDetails was not found.
+     * Template for the error message when a userDetails is not found.
      */
     private static final String USER_DETAILS_NOT_FOUND = "No userDetails found with user_id %d";
     /**
@@ -44,10 +44,8 @@ public class UserDetailsService {
                 })
                 .map(userDetailsRepository::save)
                 .map(userDetailsMapper::toDto)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException(
-                                USER_DETAILS_NOT_FOUND.formatted(userDetailsDto.userId())
-                        ))
-                );
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException(
+                                USER_DETAILS_NOT_FOUND.formatted(userDetailsDto.userId()))));
     }
 
     /**
@@ -59,8 +57,7 @@ public class UserDetailsService {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(userDetailsMapper::toDto)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException(
-                        USER_DETAILS_NOT_FOUND.formatted(id))
-                ));
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException(
+                        USER_DETAILS_NOT_FOUND.formatted(id))));
     }
 }

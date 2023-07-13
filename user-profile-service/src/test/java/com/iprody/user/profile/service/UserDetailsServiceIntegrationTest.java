@@ -1,7 +1,7 @@
 package com.iprody.user.profile.service;
 
 import com.iprody.user.profile.dto.UserDetailsDto;
-import jakarta.persistence.EntityNotFoundException;
+import com.iprody.user.profile.util.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.Test;
@@ -70,7 +70,7 @@ class UserDetailsServiceIntegrationTest {
         StepVerifier.create(userDetailsDtoMono)
                 .expectErrorSatisfies(throwable ->
                         assertThat(throwable)
-                                .isInstanceOf(EntityNotFoundException.class)
+                                .isInstanceOf(ResourceNotFoundException.class)
                                 .hasNoCause()
                                 .hasMessage(USER_DETAILS_NOT_FOUND_MESSAGE))
                 .verify();
@@ -100,7 +100,7 @@ class UserDetailsServiceIntegrationTest {
         StepVerifier.create(userDetailsDtoMono)
                 .expectErrorSatisfies(throwable ->
                         assertThat(throwable)
-                                .isInstanceOf(EntityNotFoundException.class)
+                                .isInstanceOf(ResourceNotFoundException.class)
                                 .hasNoCause()
                                 .hasMessage(USER_DETAILS_NOT_FOUND_MESSAGE))
                 .verify();

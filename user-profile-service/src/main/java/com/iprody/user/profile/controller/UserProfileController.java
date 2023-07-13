@@ -91,4 +91,5 @@ public final class UserProfileController {
     public Mono<UserDetailsDto> findUserDetails(@PathVariable long id) {
         return userDetailsService.findByUserId(id);
     }
+
 }

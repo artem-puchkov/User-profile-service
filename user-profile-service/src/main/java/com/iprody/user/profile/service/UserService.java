@@ -4,10 +4,9 @@ import com.iprody.user.profile.dto.UserDto;
 import com.iprody.user.profile.entity.User;
 import com.iprody.user.profile.entity.UserDetails;
 import com.iprody.user.profile.persistence.UserRepository;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
+import com.iprody.user.profile.util.ResourceNotFoundException;
+import com.iprody.user.profile.util.ResourceProcessingException;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
@@ -51,7 +50,7 @@ public class UserService {
                     return userRepository.save(userEntity);
                 })
                 .map(userMapper::toDto)
-                .switchIfEmpty(Mono.error(new EntityExistsException(
+                .switchIfEmpty(Mono.error(new ResourceProcessingException(
                         USER_WITH_EMAIL_EXISTS.formatted(userDto.email()))));
     }
 
@@ -70,7 +69,7 @@ public class UserService {
                     return userRepository.save(UserMergeUtils.merge(existingUser.get(), userToBeUpdated));
                 })
                 .map(userMapper::toDto)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException(USER_NOT_FOUND.formatted(userDto.id()))));
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException(USER_NOT_FOUND.formatted(userDto.id()))));
     }
 
     /**
@@ -85,6 +84,6 @@ public class UserService {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(userMapper::toDto)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException(USER_NOT_FOUND.formatted(id))));
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException(USER_NOT_FOUND.formatted(id))));
     }
 }
