@@ -48,6 +48,14 @@ final class DummyUserFactory {
      * String longer than 30 characters.
      */
     private static final String STRING_LONGER_THAN_30 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+    /**
+     * Email of user 1.
+     */
+    private static final String MAIL_OF_USER_1 = "test@test.com";
+    /**
+     * Id 100.
+     */
+    private static final long ID100 = 100L;
 
     private DummyUserFactory() {
     }
@@ -89,11 +97,46 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return Valid UserDto for create with email already exists
+     */
+    public static UserDto getValidUserDtoForCreateWithEmailAlreadyExists() {
+        return UserDto.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(MAIL_OF_USER_1)
+                .userDetailsDto(getValidUserDetailsForUpdate())
+                .build();
+    }
+
+    /**
+     * @return Valid UserDto for update with id not present in DB
+     */
+    public static UserDto getValidUserDtoForUpdateWithIdNotPresent() {
+        return UserDto.builder()
+                .id(ID100)
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .userDetailsDto(getValidUserDetailsForUpdate())
+                .build();
+    }
+
+    /**
      * @return Valid UserDetailDto with Id
      */
     public static UserDetailsDto getValidUserDetailsDtoWithId() {
         return UserDetailsDto.builder()
                 .id(USER_ID)
+                .telegramId(TELEGRAM_ID)
+                .mobilePhone(MOBILE_PHONE)
+                .build();
+    }
+
+    /**
+     * @return Valid UserDetailDto for successful update
+     */
+    public static UserDetailsDto getValidUserDetailsForUpdate() {
+        return UserDetailsDto.builder()
                 .telegramId(TELEGRAM_ID)
                 .mobilePhone(MOBILE_PHONE)
                 .build();
@@ -151,6 +194,18 @@ final class DummyUserFactory {
      */
     public static UserDto getUserDtoWithLastNameNull() {
         return UserDto.builder()
+                .firstName(FIRSTNAME)
+                .email(EMAIL)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return UserDto with null lastname
+     */
+    public static UserDto getUserDtoForUpdateWithLastNameNull() {
+        return UserDto.builder()
+                .id(USER_ID)
                 .firstName(FIRSTNAME)
                 .email(EMAIL)
                 .userDetailsDto(getValidUserDetailsDto())

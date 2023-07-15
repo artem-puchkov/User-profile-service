@@ -3,22 +3,19 @@ package com.iprody.user.profile.controller;
 import com.iprody.user.profile.util.ApiError;
 import com.iprody.user.profile.util.ResourceNotFoundException;
 import com.iprody.user.profile.util.ResourceProcessingException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
-import org.springframework.web.reactive.result.method.annotation.ResponseEntityExceptionHandler;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
+
 import java.util.Collections;
 import java.util.List;
 
 @RestControllerAdvice
-public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
+public class ExceptionHandlerController {
 
     /**
      * Error message if the resource was not found.
@@ -40,12 +37,13 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
      * @param e expects an ResourceNotFoundException error to occur.
      * @return ResponseEntity object that contains error message, details, status code and HttpStatus - NOT_FOUND.
      */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiError> handleNotFoundException(ResourceNotFoundException e) {
         final ApiError response = new ApiError(
                 RESOURCE_NOT_FOUND, Collections.singletonList(e.getMessage()),
                 HttpStatus.NOT_FOUND.value());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     /**
@@ -56,12 +54,13 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
      * @return ResponseEntity object that contains error message, details,
      * status code and HttpStatus - INTERNAL_SERVER_ERROR.
      */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(ResourceProcessingException.class)
     public ResponseEntity<ApiError> handleResourceProcessingException(ResourceProcessingException e) {
         final ApiError response = new ApiError(
                 RESOURCE_PROCESSING_ERROR, Collections.singletonList(e.getMessage()),
                 HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.internalServerError().body(response);
     }
 
     /**
@@ -69,23 +68,16 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
      * a message about error, details and status code.
      *
      * @param ex the exception to handle
-     * @param headers the headers to use for the response
-     * @param status the status code to use for the response
-     * @param exchange the current request and response
      * @return ResponseEntity object that contains error message, details,
      * status code and HttpStatus - INTERNAL_SERVER_ERROR.
-     *
      */
-    @Override
-    protected Mono<ResponseEntity<Object>> handleWebExchangeBindException(WebExchangeBindException ex,
-                                                                          HttpHeaders headers,
-                                                                          HttpStatusCode status,
-                                                                          ServerWebExchange exchange) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(WebExchangeBindException.class)
+    public ResponseEntity<ApiError> handleWebExchangeBindException(WebExchangeBindException ex) {
         final List<String> details = ex.getBindingResult().getFieldErrors()
                 .stream().map(FieldError::getDefaultMessage).toList();
         final ApiError response = new ApiError(
                 VALIDATION_ERROR, details, HttpStatus.BAD_REQUEST.value());
-        return Mono.just(new ResponseEntity<>(response, HttpStatus.BAD_REQUEST));
+        return ResponseEntity.badRequest().body(response);
     }
-
 }

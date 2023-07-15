@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Stepdefinition that compare data set in feature file and responseBody.
+ * StepDefinition that compares data set in feature file and responseBody.
  */
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
@@ -22,7 +22,8 @@ public class HttpResponseStep {
 
     /**
      * Check http status in feature file and response status.
-     * @param expectedCode  - status code in feature file
+     *
+     * @param expectedCode - status code in feature file
      */
     @Then("response code is {int}")
     public void responseCodeIs(int expectedCode) {
@@ -32,6 +33,7 @@ public class HttpResponseStep {
 
     /**
      * Check dataTable in feature file and responseBody.
+     *
      * @param dataTable - userDto parameters in feature file
      */
     @And("response body contains:")

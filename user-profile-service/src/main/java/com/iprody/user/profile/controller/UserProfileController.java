@@ -4,6 +4,7 @@ import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.dto.UserDto;
 import com.iprody.user.profile.service.UserDetailsService;
 import com.iprody.user.profile.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -41,6 +42,7 @@ public final class UserProfileController {
      * @param userDto {@link UserDto} without id for user creation
      * @return Mono of {@link UserDto} with id of created user
      */
+    @Operation(summary = "Create user")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
@@ -52,6 +54,7 @@ public final class UserProfileController {
      * @param userDto {@link UserDto} of the user to update. Must contain id of the user.
      * @return Mono of {@link UserDto} of updated user
      */
+    @Operation(summary = "Update user")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDto> updateUser(@PathVariable long id,
@@ -65,6 +68,7 @@ public final class UserProfileController {
      *                       Must contain id of the user which userDetails we want update
      * @return Mono of updated {@link UserDetailsDto}
      */
+    @Operation(summary = "Update userdetails")
     @PutMapping("/{id}/details")
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDetailsDto> updateUserDetails(@PathVariable long id,
@@ -76,6 +80,7 @@ public final class UserProfileController {
      * @param id Id of the user we want to find
      * @return Mono of {@link UserDto} of found user
      */
+    @Operation(summary = "Find user")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDto> findUser(@PathVariable long id) {
@@ -86,6 +91,7 @@ public final class UserProfileController {
      * @param id of the user which userDetails we want to find
      * @return Mono of found {@link UserDetailsDto}
      */
+    @Operation(summary = "Find userdetails")
     @GetMapping("/{id}/details")
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDetailsDto> findUserDetails(@PathVariable long id) {

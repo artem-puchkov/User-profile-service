@@ -10,21 +10,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.*;
-
+import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.ERROR_DETAILS_NAME;
+import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.ERROR_DETAILS_SEPARATOR;
+import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.USER_DETAILS_FIELD_NAME;
+import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.USER_DETAILS_FIELD_SEPARATOR;
 
 /**
  * Service class for mapping data set in feature file to model.
  */
 @UtilityClass
 public class UserProfileApiModelMapper {
-
     /**
-     * Convert Datateble from feature file to UserDto.
+     * Convert Datatable from feature file to UserDto.
+     *
      * @param dataTable - userDto parameters in feature file
-     * @return UserDto with datateble parameters
+     * @return UserDto with datatable parameters
      */
     public UserDto toUserDto(DataTable dataTable) {
         final var entry = dataTable.asMap();
@@ -42,6 +45,12 @@ public class UserProfileApiModelMapper {
                 .build();
     }
 
+    public UserDto toUserDto(DataTable dataTable, Consumer<UserDto> modifyFields) {
+        final UserDto userDto = toUserDto(dataTable);
+        modifyFields.accept(userDto);
+        return userDto;
+    }
+
     public Map<String, String> dataTableToUserFieldsMap(DataTable dataTable) {
         return dataTable.asMap().entrySet().stream()
                 .filter(e -> !e.getKey().toLowerCase().startsWith(USER_DETAILS_FIELD_NAME) && e.getValue() != null)
@@ -49,9 +58,10 @@ public class UserProfileApiModelMapper {
     }
 
     /**
-     * Converts Datateble from feature file to Map with UserDetails fields for compare by json response.
+     * Converts Datatable from feature file to Map with UserDetails fields for compare by json response.
      * Method takes a table, filters from it only the filled values related to UserDetails and returns them as a Map:
-     * Key = valeu from table after "USER_DETAILS_FIELD_SEPARATOR"
+     * Key = value from table after "USER_DETAILS_FIELD_SEPARATOR"
+     *
      * @param dataTable - userDto parameters in feature file
      * @return Map with fields
      */
@@ -66,19 +76,19 @@ public class UserProfileApiModelMapper {
 
     public Map<String, Object> dataTableToErrorFieldsMap(DataTable dataTable) {
         var map = dataTable.asMap();
-        Map<String, Object> errorFields = map.entrySet().stream()
+        return map.entrySet().stream()
                 .filter(e -> !e.getKey().equalsIgnoreCase(ERROR_DETAILS_NAME))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return errorFields;
     }
 
     /**
-     * Converts Datateble from feature file to List with UserDetails fields for compare by json response.
+     * Converts Datatable from feature file to List with UserDetails fields for compare by json response.
      * Method takes a table, filters from it String field "details"
      * and converts a string into a collection using a constant separator.
      * Method allows the use of spaces before and after the separator in the feature file (regex \\s* before and after separator)
+     *
      * @param dataTable - userDto parameters in feature file
-     * @return Map with fields
+     * @return list with fields
      */
     public List<String> dataTableToErrorDetailsList(DataTable dataTable) {
         var map = dataTable.asMap();

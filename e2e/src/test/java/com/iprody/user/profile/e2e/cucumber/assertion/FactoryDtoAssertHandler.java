@@ -19,11 +19,9 @@ public class FactoryDtoAssertHandler {
         if (clazz.equals(UserDto.class)) {
             return new UserDtoAssertion(jsonSerializationHelper);
         }
-
         if (clazz.equals(ApiError.class)) {
             return new ApiErrorAssertion(jsonSerializationHelper);
         }
-
-        throw new RuntimeException("An unprocessed data type was obtained: " + clazz.getName());
+        throw new IllegalArgumentException("An unprocessed data type was obtained: " + clazz.getName());
     }
 }

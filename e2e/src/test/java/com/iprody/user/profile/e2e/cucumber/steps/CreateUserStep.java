@@ -10,11 +10,9 @@ import io.cucumber.java.en.When;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
-
 
 /**
- * Stepdefinition that init create requests to service.
+ * StepDefinition that inits requests creation to service.
  */
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

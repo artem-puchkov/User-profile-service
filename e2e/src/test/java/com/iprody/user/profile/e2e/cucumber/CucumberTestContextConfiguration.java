@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = { "cucumber.junit-platform.naming-strategy=long" })
+        properties = {"cucumber.junit-platform.naming-strategy=long"})
 public class CucumberTestContextConfiguration {
 
 }

@@ -55,5 +55,4 @@ public final class ServiceAvailableStepDef {
 
         assertThat(actualEndpoints).contains(expectedEndpoint);
     }
-
 }

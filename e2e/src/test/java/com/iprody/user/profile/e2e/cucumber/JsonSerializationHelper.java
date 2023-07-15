@@ -1,6 +1,5 @@
 package com.iprody.user.profile.e2e.cucumber;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,12 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.*;
+import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.ERROR_DETAILS_NAME;
+import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.USER_DETAILS_FIELD_NAME;
+import static com.iprody.user.profile.e2e.cucumber.FieldNamesConst.USER_DETAILS_JSON_NAME;
 
 @RequiredArgsConstructor
 @Component
 public class JsonSerializationHelper {
-
     /**
      * Injecting bean with json parsing functionality.
      */
@@ -28,12 +28,7 @@ public class JsonSerializationHelper {
      * @return object as JsonNode
      */
     public JsonNode getObjectAsNode(Object object) {
-        try {
-            final var objectAsJson = objectMapper.writeValueAsString(object);
-            return objectMapper.readTree(objectAsJson);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Something happened during serialization", e);
-        }
+        return objectMapper.valueToTree(object);
     }
 
     public JsonNode getResponseBodyAsJsonNode() {
@@ -58,6 +53,7 @@ public class JsonSerializationHelper {
     }
 
     public List<String> jsonNodeToErrorDetailsList(JsonNode responseBody) {
-        return objectMapper.convertValue(responseBody.get(ERROR_DETAILS_NAME),new TypeReference<ArrayList<String>>(){});
+        return objectMapper.convertValue(responseBody.get(ERROR_DETAILS_NAME), new TypeReference<ArrayList<String>>() {
+        });
     }
 }
