@@ -12,7 +12,6 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yml
     enabled: true
-
 management:
   endpoints:
     web:
@@ -23,5 +22,44 @@ management:
       show-details: always
 springdoc:
   show-actuator: true
-  swagger-ui:
-    url: openapi.json
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+server:
+  error:
+    include-message: always
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master-test.yml
+server:
+  error:
+    include-message: always
+---
+spring:
+  config:
+    activate:
+      on-profile: e2e
+management:
+  endpoints:
+    web:
+      exposure:
+        include: liquibase, health, prometheus, mappings
+server:
+  error:
+    include-message: always
