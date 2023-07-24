@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,11 +23,12 @@ import reactor.core.publisher.Mono;
 /**
  * Controller that exposes endpoints for User and UserDetails on path '/api/v1/users'.
  */
+@Slf4j
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true)
-public final class UserProfileController {
+public class UserProfileController {
 
     /**
      * Injection of service with business logic of userDetails.
@@ -46,6 +48,7 @@ public final class UserProfileController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
+        log.debug("Start create user: {}", userDto);
         return userService.save(userDto);
     }
 
@@ -59,6 +62,7 @@ public final class UserProfileController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDto> updateUser(@PathVariable long id,
                                     @RequestBody @Valid UserDto userDto) {
+        log.debug("Start update user: {}", userDto);
         return userService.updateUser(userDto);
     }
 
@@ -73,6 +77,7 @@ public final class UserProfileController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDetailsDto> updateUserDetails(@PathVariable long id,
                                                   @RequestBody @Valid UserDetailsDto userDetailsDto) {
+        log.debug("Start update user details: {}", userDetailsDto);
         return userDetailsService.update(userDetailsDto);
     }
 
@@ -84,6 +89,7 @@ public final class UserProfileController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDto> findUser(@PathVariable long id) {
+        log.debug("Find user with id: {}", id);
         return userService.findUser(id);
     }
 
@@ -95,7 +101,7 @@ public final class UserProfileController {
     @GetMapping("/{id}/details")
     @ResponseStatus(HttpStatus.OK)
     public Mono<UserDetailsDto> findUserDetails(@PathVariable long id) {
+        log.debug("Find userDetails with userId: {}", id);
         return userDetailsService.findByUserId(id);
     }
-
 }

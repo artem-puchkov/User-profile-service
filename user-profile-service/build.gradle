@@ -9,7 +9,11 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
     implementation 'org.liquibase:liquibase-core'
+    implementation "io.micrometer:micrometer-tracing"
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
+    testImplementation "io.micrometer:micrometer-tracing-test"
+    testImplementation "io.micrometer:micrometer-observation-test"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation "org.testcontainers:postgresql:${versions.testcontainers}"
