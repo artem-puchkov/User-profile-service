@@ -68,6 +68,22 @@ subprojects {
         }
     }
 
+    ext {
+        isProd = project.hasProperty('env') ? project.property('env') == 'prod' : false
+    }
+
+    sourceSets {
+        main {
+            resources {
+                println "Gradle Profile Enabled: ['prod' => $isProd']"
+
+                if (isProd) {
+                    exclude '**/db.changelog-e2e.yml'
+                    exclude '**/add-test-users.yml'
+                }
+            }
+        }
+    }
 
     tasks.withType(Test).configureEach {
         useJUnitPlatform()

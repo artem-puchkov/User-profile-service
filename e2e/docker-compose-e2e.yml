@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15.3-alpine
+    container_name: postgres_e2e
+    environment:
+      POSTGRES_DB: "iprody"
+      POSTGRES_USER: "iprody"
+      POSTGRES_PASSWORD: "secret"
+    volumes:
+      - ./pgdata_e2e:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+  user-profile-service:
+    container_name: user-profile-service
+    build:
+      context: ../user-profile-service
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: e2e
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres

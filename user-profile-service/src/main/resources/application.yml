@@ -55,6 +55,8 @@ spring:
   config:
     activate:
       on-profile: e2e
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-e2e.yml
 management:
   endpoints:
     web:

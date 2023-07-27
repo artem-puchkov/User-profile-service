@@ -1,0 +1,81 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Artem
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: Gregory
+              - column:
+                  name: last_name
+                  value: House
+              - column:
+                  name: email
+                  value: housegregory213@gmail.com
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: Alex
+              - column:
+                  name: last_name
+                  value: Morgan
+              - column:
+                  name: email
+                  value: marrolex@gmail.com
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: James
+              - column:
+                  name: last_name
+                  value: Williams
+              - column:
+                  name: email
+                  value: jamewilliams@gmail.com
+  - changeSet:
+      id: 2
+      author: Artem
+      changes:
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: telegram_id
+                  value: gregtg
+              - column:
+                  name: mobile_phone
+                  value: "+1234567890"
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: telegram_id
+                  value: Alexoo
+              - column:
+                  name: mobile_phone
+                  value: "+1234567821"
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: user_id
+                  value: 3
+              - column:
+                  name: telegram_id
+                  value: jamestg
+              - column:
+                  name: mobile_phone
+                  value: "+1234567663"
