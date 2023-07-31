@@ -56,4 +56,9 @@ public class JsonSerializationHelper {
         return objectMapper.convertValue(responseBody.get(ERROR_DETAILS_NAME), new TypeReference<ArrayList<String>>() {
         });
     }
+
+    public Map<String, String> detailsJsonToDetailsFieldsMap(JsonNode responseBody) {
+        return responseBody.properties().stream()
+                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue().asText()));
+    }
 }
