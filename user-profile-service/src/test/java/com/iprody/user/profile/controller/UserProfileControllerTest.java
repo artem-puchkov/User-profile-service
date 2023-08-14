@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,6 +35,7 @@ import static org.mockito.Mockito.when;
  */
 @WebFluxTest
 @Import(WebSecurityConfig.class)
+@ActiveProfiles("local")
 class UserProfileControllerTest {
 
     public static final String PATH_USERS = "/users";

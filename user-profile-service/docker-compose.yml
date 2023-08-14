@@ -34,8 +34,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8443:8443"
     environment:
+      SPRING_PROFILES_ACTIVE: local
       BASE_PATH: ${UPS_API_BASE_PATH}
       DB_HOST: ${UPS_DB_HOST}
       DB_PORT: ${UPS_DB_PORT}

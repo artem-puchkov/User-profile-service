@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080/api/v1",
+      "url": "https://localhost:8443/api/v1",
       "description": "Generated server url"
     }
   ],
@@ -40,12 +40,12 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -70,12 +70,12 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -110,12 +110,12 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -140,12 +140,12 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -172,12 +172,12 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDetailsDto"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -202,12 +202,12 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "$ref": "#/components/schemas/UserDetailsDto"
                 }
               }
             }
@@ -242,12 +242,12 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDetailsDto"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -272,12 +272,12 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "$ref": "#/components/schemas/UserDetailsDto"
                 }
               }
             }
@@ -303,12 +303,12 @@
           "required": true
         },
         "responses": {
-          "201": {
-            "description": "Created",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -333,12 +333,12 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "201": {
+            "description": "Created",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
@@ -354,17 +354,12 @@
         "summary": "Actuator web endpoint 'prometheus'",
         "operationId": "prometheus",
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
-              "text/plain;version=0.0.4;charset=utf-8": {
+              "*/*": {
                 "schema": {
-                  "type": "object"
-                }
-              },
-              "application/openmetrics-text;version=1.0.0;charset=utf-8": {
-                "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -389,12 +384,17 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
-              "*/*": {
+              "text/plain;version=0.0.4;charset=utf-8": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "type": "object"
+                }
+              },
+              "application/openmetrics-text;version=1.0.0;charset=utf-8": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }
@@ -410,22 +410,12 @@
         "summary": "Actuator web endpoint 'mappings'",
         "operationId": "mappings",
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
+              "*/*": {
                 "schema": {
-                  "type": "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -450,12 +440,22 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
-              "*/*": {
+              "application/vnd.spring-boot.actuator.v3+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }
@@ -471,22 +471,12 @@
         "summary": "Actuator web endpoint 'liquibase'",
         "operationId": "liquibase",
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
+              "*/*": {
                 "schema": {
-                  "type": "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -511,12 +501,22 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
-              "*/*": {
+              "application/vnd.spring-boot.actuator.v3+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }
@@ -542,22 +542,12 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
+              "*/*": {
                 "schema": {
-                  "type": "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -582,12 +572,22 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
-              "*/*": {
+              "application/vnd.spring-boot.actuator.v3+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }
@@ -603,22 +603,12 @@
         "summary": "Actuator web endpoint 'health'",
         "operationId": "health",
         "responses": {
-          "200": {
-            "description": "OK",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
+              "*/*": {
                 "schema": {
-                  "type": "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }
@@ -643,12 +633,22 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "OK",
             "content": {
-              "*/*": {
+              "application/vnd.spring-boot.actuator.v3+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiError"
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }
@@ -664,6 +664,36 @@
         "summary": "Actuator root web endpoint",
         "operationId": "links",
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -698,36 +728,6 @@
                       "$ref": "#/components/schemas/Link"
                     }
                   }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }

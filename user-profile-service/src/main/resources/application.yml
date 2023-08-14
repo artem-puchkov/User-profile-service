@@ -22,6 +22,15 @@ management:
       show-details: always
 springdoc:
   show-actuator: true
+server:
+  port: 8443
+  ssl:
+    enabled: ${IS_SSL_ENABLED}
+    key-store-type: ${KEY_STORE_TYPE}
+    key-store: ${KEY_STORE_FILE}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    protocol: TLS
+    enabled-protocols: ${TLS_PROTOCOL_VERSION}
 ---
 spring:
   config:
