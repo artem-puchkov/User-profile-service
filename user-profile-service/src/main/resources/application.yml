@@ -55,8 +55,11 @@ spring:
   config:
     activate:
       on-profile: e2e
+  datasource:
+    url: jdbc:postgresql://postgres:5432/iprody
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-e2e.yml
+    drop-first: true
 management:
   endpoints:
     web:
