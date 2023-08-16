@@ -51,6 +51,28 @@ public class UserProfileApiModelMapper {
         return userDto;
     }
 
+    /**
+     * Convert Datatable from feature file to UserDetailsDto.
+     *
+     * @param dataTable - userDetailsDto parameters in feature file
+     * @return UserDetailsDto with datatable parameters
+     */
+    public UserDetailsDto toUserDetailsDto(DataTable dataTable) {
+        final var entry = dataTable.asMap();
+        return UserDetailsDto.builder()
+                .id(entry.get("id") == null ? null : Long.valueOf(entry.get("id")))
+                .userId(entry.get("userId") == null ? null : Long.valueOf(entry.get("userId")))
+                .telegramId(entry.get("telegramId"))
+                .mobilePhone(entry.get("mobilePhone"))
+                .build();
+    }
+
+    public UserDetailsDto toUserDetailsDto(DataTable dataTable, Consumer<UserDetailsDto> modifyFields) {
+        final var userDetailsDto = toUserDetailsDto(dataTable);
+        modifyFields.accept(userDetailsDto);
+        return userDetailsDto;
+    }
+
     public Map<String, String> dataTableToUserFieldsMap(DataTable dataTable) {
         return dataTable.asMap().entrySet().stream()
                 .filter(e -> !e.getKey().toLowerCase().startsWith(USER_DETAILS_FIELD_NAME) && e.getValue() != null)

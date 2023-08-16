@@ -1,5 +1,6 @@
 package com.iprody.user.profile.e2e.cucumber;
 
+import com.iprody.user.profile.e2e.generated.model.UserDetailsDto;
 import com.iprody.user.profile.e2e.generated.model.UserDto;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.ResponseEntity;
@@ -101,5 +102,12 @@ public class TestContextStorage {
      */
     public UserDto getRequestUserDto() {
         return (UserDto) getRequestBody();
+    }
+
+    /**
+     * @return UserDetailsDto stored in context
+     */
+    public UserDetailsDto getRequestUserDetailsDto() {
+        return (UserDetailsDto) getRequestBody();
     }
 }

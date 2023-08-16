@@ -66,11 +66,11 @@ Feature: Update user
   Scenario: Client error while updating non-existing user
     When a client wants to update a user with id 100
     And wants to update a user to:
-      | firstName               | first_updated     |
-      | lastName                | last_updated      |
-      | email                   | email@updated.com |
-      | userDetails.telegramId  | @tg_updated       |
-      | userDetails.mobilePhone | +77777777         |
+      | firstName               | first_updated   |
+      | lastName                | last_updated    |
+      | email                   | email@email.com |
+      | userDetails.telegramId  | @tg_updated     |
+      | userDetails.mobilePhone | +77777777       |
     Then response code is 404
     And response body contains:
       | status  | 404                        |
