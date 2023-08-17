@@ -5,13 +5,13 @@ Feature: Find User Details
     And User endpoint "/users/{id}/details" with http method "GET" available
 
   Scenario: Find user details successfully
-    When a client wants to find a user details with id 1
+    When a client wants to find a user details with id 3
     Then response code is 200
     And response body contains:
-      | telegramId  | gregtg      |
-      | mobilePhone | +1234567890 |
-      | userId      | 1           |
-      | id          | 1           |
+      | telegramId  | jamestg     |
+      | mobilePhone | +1234567663 |
+      | userId      | 3           |
+      | id          | 3           |
 
   Scenario: Client error while no user details found
     When a client wants to find a user details with id 100

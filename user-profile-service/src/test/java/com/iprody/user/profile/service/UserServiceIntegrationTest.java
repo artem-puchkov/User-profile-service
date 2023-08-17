@@ -49,7 +49,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void WhenCreateUserSuccess(SoftAssertions softly) {
+    void whenCreateUserSuccess(SoftAssertions softly) {
         final UserDetailsDto userDetailsDto = new UserDetailsDto(null, TELEGRAM_ID, null, null);
         final UserDto userDto = new UserDto(null, TEST_FIRST_NAME, TEST_LAST_NAME, TEST_EMAIL, userDetailsDto);
 
@@ -65,7 +65,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void WhenCreateUserWithExistingEmailFail(SoftAssertions softly) {
+    void whenCreateUserWithExistingEmailFail(SoftAssertions softly) {
         final UserDetailsDto userDetailsDto = new UserDetailsDto(null, TELEGRAM_ID, null, null);
         final UserDto newUserDto = new UserDto(
                 null, UPDATED_FIRST_NAME, UPDATED_LAST_NAME, EXISTING_USER_EMAIL, userDetailsDto);
@@ -78,8 +78,22 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void WhenUpdateUserSuccess(SoftAssertions softly) {
-        final Long userId = 1L;
+    void whenUpdateUserWithExistingEmailFail(SoftAssertions softly) {
+        final Long userId = 2L;
+        final UserDetailsDto userDetailsDto = new UserDetailsDto(userId, TELEGRAM_ID, null, null);
+        final UserDto newUserDto = new UserDto(
+                userId, UPDATED_FIRST_NAME, UPDATED_LAST_NAME, EXISTING_USER_EMAIL, userDetailsDto);
+
+        StepVerifier.create(userService.updateUser(newUserDto))
+                .expectErrorSatisfies(throwable -> softly.assertThat(throwable)
+                        .isInstanceOf(ResourceProcessingException.class)
+                        .hasMessage(ENTITY_EXISTS_MESSAGE))
+                .verify();
+    }
+
+    @Test
+    void whenUpdateUserSuccess(SoftAssertions softly) {
+        final Long userId = 2L;
         final UserDetailsDto userDetailsDto = new UserDetailsDto(userId, TELEGRAM_ID, null, null);
         final String uniqueTestEmail = "updated" + userId + "@test.com";
         final UserDto userDto = new UserDto(
@@ -96,7 +110,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void WhenUpdateUserNotFound(SoftAssertions softly) {
+    void whenUpdateUserNotFound(SoftAssertions softly) {
         final UserDetailsDto userDetailsDto = new UserDetailsDto(null, TELEGRAM_ID, null, null);
         final UserDto userDto = new UserDto(
                 NON_EXISTENT_USER_ID, NON_EXISTENT_USER, NON_EXISTENT_USER, NON_EXISTENT_USER_EMAIL, userDetailsDto);
@@ -109,7 +123,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void WhenFindUserFound(SoftAssertions softly) {
+    void whenFindUserFound(SoftAssertions softly) {
         StepVerifier.create(userService.findUser(1L))
                 .assertNext(userDto -> {
                     softly.assertThat(userDto).isNotNull();
@@ -120,7 +134,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void WhenFindUserNotFound(SoftAssertions softly) {
+    void whenFindUserNotFound(SoftAssertions softly) {
         StepVerifier.create(userService.findUser(NON_EXISTENT_USER_ID))
                 .expectErrorSatisfies(throwable -> softly.assertThat(throwable)
                         .isInstanceOf(ResourceNotFoundException.class)

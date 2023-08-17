@@ -69,7 +69,7 @@ public class ExceptionHandlerController {
      *
      * @param ex the exception to handle
      * @return ResponseEntity object that contains error message, details,
-     * status code and HttpStatus - INTERNAL_SERVER_ERROR.
+     * status code and HttpStatus - BAD_REQUEST.
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(WebExchangeBindException.class)

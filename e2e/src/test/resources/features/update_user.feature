@@ -28,14 +28,14 @@ Feature: Update user
     And wants to update a user to:
       | firstName               | first_updated     |
       | lastName                | last_updated      |
-      | email                   | email@updated.com |
+      | email                   | jamewilliams@gmail.com |
       | userDetails.telegramId  | @tg_updated       |
       | userDetails.mobilePhone | +77777777         |
     Then response code is 500
     And response body contains:
-      | status  | 500                                                  |
-      | message | Error occurred during processing the resource        |
-      | details | A user with email: email@updated.com already exists. |
+      | status  | 500 |
+      | message | Error occurred during processing the resource |
+      | details | A user with email: jamewilliams@gmail.com already exists. |
 
 
   Scenario Outline: Client error while updating a user with invalid parameters

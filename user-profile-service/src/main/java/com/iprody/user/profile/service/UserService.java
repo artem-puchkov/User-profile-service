@@ -62,7 +62,9 @@ public class UserService {
      * If the User is not found in the database, an error Mono is returned with an EntityNotFoundException.
      */
     public Mono<UserDto> updateUser(UserDto userDto) {
-        return Mono.fromCallable(() -> userRepository.findById(userDto.id()))
+        return userRepository.existsByEmail(userDto.email())
+                ? Mono.error(new ResourceProcessingException(USER_WITH_EMAIL_EXISTS.formatted(userDto.email())))
+                : Mono.just(userRepository.findById(userDto.id()))
                 .filter(Optional::isPresent)
                 .map(existingUser -> {
                     final User userToBeUpdated = userMapper.toBusinessModel(userDto);
