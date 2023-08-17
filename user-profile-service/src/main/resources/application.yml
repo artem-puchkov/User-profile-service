@@ -1,10 +1,10 @@
 spring:
   webflux:
-    base-path: /api/v1
+    base-path: ${BASE_PATH}
   datasource:
-    url: jdbc:postgresql://localhost:5432/iprody
-    username: iprody
-    password: secret
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -55,8 +55,6 @@ spring:
   config:
     activate:
       on-profile: e2e
-  datasource:
-    url: jdbc:postgresql://postgres:5432/iprody
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-e2e.yml
     drop-first: true

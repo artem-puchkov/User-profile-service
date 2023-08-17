@@ -4,9 +4,9 @@ services:
     image: postgres:15.3-alpine
     container_name: postgres_e2e
     environment:
-      POSTGRES_DB: "iprody"
-      POSTGRES_USER: "iprody"
-      POSTGRES_PASSWORD: "secret"
+      POSTGRES_DB: ${UPS_DB_NAME}
+      POSTGRES_USER: ${UPS_DB_USERNAME}
+      POSTGRES_PASSWORD: ${UPS_DB_PASSWORD}
     volumes:
       - ./pgdata_e2e:/var/lib/postgresql/data
     networks:
@@ -27,6 +27,12 @@ services:
       dockerfile: Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: e2e
+      BASE_PATH: ${UPS_API_BASE_PATH}
+      DB_HOST: ${UPS_DB_HOST}
+      DB_PORT: ${UPS_DB_PORT}
+      DB_NAME: ${UPS_DB_NAME}
+      DB_USERNAME: ${UPS_DB_USERNAME}
+      DB_PASSWORD: ${UPS_DB_PASSWORD}
     ports:
       - "8080:8080"
     networks:
