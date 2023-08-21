@@ -1,5 +1,6 @@
 package com.iprody.user.profile.controller;
 
+import com.iprody.user.profile.dto.CreateUserRequest;
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.dto.UserDto;
 import org.junit.jupiter.params.provider.Arguments;
@@ -9,7 +10,6 @@ import java.util.stream.Stream;
 /**
  * @author Mikhail Sheludyakov
  */
-
 final class DummyUserFactory {
 
     /**
@@ -51,11 +51,19 @@ final class DummyUserFactory {
     /**
      * Email of user 1.
      */
-    private static final String MAIL_OF_USER_1 = "test@test.com";
+    private static final String MAIL_OF_USER_1 = "housegregory213@gmail.com";
     /**
      * Id 100.
      */
     private static final long ID100 = 100L;
+    /**
+     * Password 123456.
+     */
+    private static final String PASSWORD = "12345Aa+";
+    /**
+     * Invalid email.
+     */
+    private static final String INVALID_EMAIL = "email.ru";
 
     private DummyUserFactory() {
     }
@@ -69,6 +77,19 @@ final class DummyUserFactory {
                 .firstName(FIRSTNAME)
                 .lastName(LASTNAME)
                 .email(EMAIL)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return Valid UserDto
+     */
+    public static CreateUserRequest getValidCreateUserDto() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
                 .userDetailsDto(getValidUserDetailsDto())
                 .build();
     }
@@ -97,13 +118,14 @@ final class DummyUserFactory {
     }
 
     /**
-     * @return Valid UserDto for create with email already exists
+     * @return Valid CreateUserDto for create with email already exists
      */
-    public static UserDto getValidUserDtoForCreateWithEmailAlreadyExists() {
-        return UserDto.builder()
+    public static CreateUserRequest getValidCreateUserDtoWithEmailAlreadyExists() {
+        return CreateUserRequest.builder()
                 .firstName(FIRSTNAME)
                 .lastName(LASTNAME)
                 .email(MAIL_OF_USER_1)
+                .password(PASSWORD)
                 .userDetailsDto(getValidUserDetailsForUpdate())
                 .build();
     }
@@ -154,6 +176,18 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with null firstname
+     */
+    public static CreateUserRequest getCreateUserDtoWithFirstNameNull() {
+        return CreateUserRequest.builder()
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
      * @return UserDto with empty firstname
      */
     public static UserDto getUserDtoWithFirstNameEmpty() {
@@ -161,6 +195,19 @@ final class DummyUserFactory {
                 .firstName(EMPTY_STRING)
                 .lastName(LASTNAME)
                 .email(EMAIL)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with empty firstname
+     */
+    public static CreateUserRequest getCreateUserDtoWithFirstNameEmpty() {
+        return CreateUserRequest.builder()
+                .firstName(EMPTY_STRING)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
                 .userDetailsDto(getValidUserDetailsDto())
                 .build();
     }
@@ -178,6 +225,19 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with blank firstname
+     */
+    public static CreateUserRequest getCreateUserDtoWithFirstNameBlank() {
+        return CreateUserRequest.builder()
+                .firstName(BLANK_STRING)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
      * @return UserDto with firstname length > 30
      */
     public static UserDto getUserDtoWithFirstNameLengthGreaterThan30() {
@@ -190,12 +250,37 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with firstname length > 30
+     */
+    public static CreateUserRequest getCreateUserDtoWithFirstNameLengthGreaterThan30() {
+        return CreateUserRequest.builder()
+                .firstName(STRING_LONGER_THAN_30)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
      * @return UserDto with null lastname
      */
     public static UserDto getUserDtoWithLastNameNull() {
         return UserDto.builder()
                 .firstName(FIRSTNAME)
                 .email(EMAIL)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with null lastname
+     */
+    public static CreateUserRequest getCreateUserDtoWithLastNameNull() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
                 .userDetailsDto(getValidUserDetailsDto())
                 .build();
     }
@@ -225,6 +310,19 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with empty lastname
+     */
+    public static CreateUserRequest getCreateUserDtoWithLastNameEmpty() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(EMPTY_STRING)
+                .email(EMAIL)
+                .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
      * @return UserDto with blank lastname
      */
     public static UserDto getUserDtoWithLastNameBlank() {
@@ -232,6 +330,19 @@ final class DummyUserFactory {
                 .firstName(FIRSTNAME)
                 .lastName(BLANK_STRING)
                 .email(EMAIL)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with blank lastname
+     */
+    public static CreateUserRequest getCreateUserDtoWithLastNameBlank() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(BLANK_STRING)
+                .email(EMAIL)
+                .password(PASSWORD)
                 .userDetailsDto(getValidUserDetailsDto())
                 .build();
     }
@@ -249,12 +360,37 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with lastname length > 30
+     */
+    public static CreateUserRequest getCreateUserDtoWithLastNameLengthGreaterThan30() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(STRING_LONGER_THAN_30)
+                .email(EMAIL)
+                .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
      * @return UserDto with null email
      */
     public static UserDto getUserDtoWithEmailNull() {
         return UserDto.builder()
                 .firstName(FIRSTNAME)
                 .lastName(LASTNAME)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with null email
+     */
+    public static CreateUserRequest getCreateUserDtoWithEmailNull() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .password(PASSWORD)
                 .userDetailsDto(getValidUserDetailsDto())
                 .build();
     }
@@ -272,6 +408,19 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with empty email
+     */
+    public static CreateUserRequest getCreateUserDtoWithEmailEmpty() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMPTY_STRING)
+                .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
      * @return UserDto with blank email
      */
     public static UserDto getUserDtoWithEmailBlank() {
@@ -284,13 +433,77 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with blank email
+     */
+    public static CreateUserRequest getCreateUserDtoWithEmailBlank() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(BLANK_STRING)
+                .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
      * @return UserDto with invalid email
      */
     public static UserDto getUserDtoWithEmailInvalid() {
         return UserDto.builder()
                 .firstName(FIRSTNAME)
                 .lastName(LASTNAME)
-                .email("email.ru")
+                .email(INVALID_EMAIL)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with invalid email
+     */
+    public static CreateUserRequest getCreateUserDtoWithEmailInvalid() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(INVALID_EMAIL)
+                .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with password less than 6 characters
+     */
+    public static CreateUserRequest getCreateUserDtoWithShortPassword() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password("12345")
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with password null
+     */
+    public static CreateUserRequest getCreateUserDtoWithPasswordNull() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .userDetailsDto(getValidUserDetailsDto())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with password null
+     */
+    public static CreateUserRequest getCreateUserDtoWithPasswordBlank() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(BLANK_STRING)
                 .userDetailsDto(getValidUserDetailsDto())
                 .build();
     }
@@ -334,6 +547,19 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with null telegramId
+     */
+    public static CreateUserRequest getCreateUserDtoWithTelegramIdNull() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
+                .userDetailsDto(getUserDetailsDtoWithTelegramIdNull())
+                .build();
+    }
+
+    /**
      * @return UserDto with invalid telegramId
      */
     public static UserDto getUserDtoWithTelegramIdBlank() {
@@ -346,6 +572,19 @@ final class DummyUserFactory {
     }
 
     /**
+     * @return CreateUserDto with invalid telegramId
+     */
+    public static CreateUserRequest getCreateUserDtoWithTelegramIdBlank() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
+                .userDetailsDto(getUserDetailsDtoWithTelegramIdBlank())
+                .build();
+    }
+
+    /**
      * @return UserDto with invalid mobile phone
      */
     public static UserDto getUserDtoWithMobilePhoneNotMatchesPattern() {
@@ -353,6 +592,19 @@ final class DummyUserFactory {
                 .firstName(FIRSTNAME)
                 .lastName(LASTNAME)
                 .email(EMAIL)
+                .userDetailsDto(getUserDetailsDtoWithMobilePhoneNotMatchesPattern())
+                .build();
+    }
+
+    /**
+     * @return CreateUserDto with invalid mobile phone
+     */
+    public static CreateUserRequest getCreateUserDtoWithMobilePhoneNotMatchesPattern() {
+        return CreateUserRequest.builder()
+                .firstName(FIRSTNAME)
+                .lastName(LASTNAME)
+                .email(EMAIL)
+                .password(PASSWORD)
                 .userDetailsDto(getUserDetailsDtoWithMobilePhoneNotMatchesPattern())
                 .build();
     }
@@ -377,6 +629,33 @@ final class DummyUserFactory {
                 Arguments.of(getUserDtoWithTelegramIdNull()),
                 Arguments.of(getUserDtoWithTelegramIdBlank()),
                 Arguments.of(getUserDtoWithMobilePhoneNotMatchesPattern())
+        );
+    }
+
+    /**
+     * @return Stream of Arguments with invalid UserDto's
+     */
+    public static Stream<Arguments> getInvalidUserCreateDtoArguments() {
+        return Stream.of(
+                Arguments.of(getCreateUserDtoWithFirstNameNull()),
+                Arguments.of(getCreateUserDtoWithFirstNameEmpty()),
+                Arguments.of(getCreateUserDtoWithFirstNameBlank()),
+                Arguments.of(getCreateUserDtoWithFirstNameLengthGreaterThan30()),
+                Arguments.of(getCreateUserDtoWithLastNameNull()),
+                Arguments.of(getCreateUserDtoWithLastNameEmpty()),
+                Arguments.of(getCreateUserDtoWithLastNameBlank()),
+                Arguments.of(getCreateUserDtoWithLastNameLengthGreaterThan30()),
+                Arguments.of(getCreateUserDtoWithEmailNull()),
+                Arguments.of(getCreateUserDtoWithEmailEmpty()),
+                Arguments.of(getCreateUserDtoWithEmailBlank()),
+                Arguments.of(getCreateUserDtoWithEmailInvalid()),
+                Arguments.of(getCreateUserDtoWithTelegramIdNull()),
+                Arguments.of(getCreateUserDtoWithTelegramIdBlank()),
+                Arguments.of(getCreateUserDtoWithMobilePhoneNotMatchesPattern()),
+                Arguments.of(getCreateUserDtoWithShortPassword()),
+                Arguments.of(getCreateUserDtoWithPasswordBlank()),
+                Arguments.of(getCreateUserDtoWithPasswordNull())
+
         );
     }
 

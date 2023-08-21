@@ -72,16 +72,21 @@ subprojects {
         isProd = project.hasProperty('env') ? project.property('env') == 'prod' : false
     }
 
-    sourceSets {
-        main {
-            resources {
-                println "Gradle Profile Enabled: ['prod' => $isProd']"
+    processResources {
+        if (isProd) {
+            exclude '**/db.changelog-e2e.yml'
+            exclude '**/add-test-users.yml'
+        }
+        doLast {
+            println "Gradle Profile Enabled: ['prod' => $isProd']"
+        }
+    }
 
-                if (isProd) {
-                    exclude '**/db.changelog-e2e.yml'
-                    exclude '**/add-test-users.yml'
-                }
-            }
+    processTestResources {
+        if (isProd) {
+            from 'src/main/resources'
+            include '**/db.changelog-e2e.yml'
+            include '**/add-test-users.yml'
         }
     }
 

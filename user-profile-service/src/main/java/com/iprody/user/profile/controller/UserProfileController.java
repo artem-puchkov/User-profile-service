@@ -1,5 +1,6 @@
 package com.iprody.user.profile.controller;
 
+import com.iprody.user.profile.dto.CreateUserRequest;
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.dto.UserDto;
 import com.iprody.user.profile.service.UserDetailsService;
@@ -41,15 +42,15 @@ public class UserProfileController {
     private UserService userService;
 
     /**
-     * @param userDto {@link UserDto} without id for user creation
+     * @param userRequest {@link CreateUserRequest} without id for user creation
      * @return Mono of {@link UserDto} with id of created user
      */
     @Operation(summary = "Create user")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
-        log.debug("Start create user: {}", userDto);
-        return userService.save(userDto);
+    public Mono<UserDto> createUser(@RequestBody @Valid CreateUserRequest userRequest) {
+        log.debug("Start create user: {}", userRequest);
+        return userService.save(userRequest);
     }
 
     /**

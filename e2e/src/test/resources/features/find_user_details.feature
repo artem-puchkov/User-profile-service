@@ -17,6 +17,6 @@ Feature: Find User Details
     When a client wants to find a user details with id 100
     Then response code is 404
     And response body contains:
-      | status  | 404                        |
-      | message | Resource was not found     |
+      | status  | 404                                   |
+      | message | Resource was not found                |
       | details | No userDetails found with user_id 100 |

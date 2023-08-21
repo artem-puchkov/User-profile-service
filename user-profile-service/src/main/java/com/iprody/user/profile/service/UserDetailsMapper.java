@@ -16,7 +16,6 @@ public interface UserDetailsMapper {
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "created", ignore = true)
     @Mapping(target = "updated", ignore = true)
-    @Mapping(target = "status", ignore = true)
     UserDetails toBusinessModel(UserDetailsDto userDetailsDto);
 
     /**

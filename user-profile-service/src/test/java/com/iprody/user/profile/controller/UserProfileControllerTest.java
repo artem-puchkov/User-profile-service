@@ -1,5 +1,7 @@
 package com.iprody.user.profile.controller;
 
+import com.iprody.user.profile.config.WebSecurityConfig;
+import com.iprody.user.profile.dto.CreateUserRequest;
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.dto.UserDto;
 import com.iprody.user.profile.service.UserDetailsService;
@@ -10,6 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -17,6 +20,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
+import static com.iprody.user.profile.controller.DummyUserFactory.getValidCreateUserDto;
 import static com.iprody.user.profile.controller.DummyUserFactory.getValidUserDetailsDto;
 import static com.iprody.user.profile.controller.DummyUserFactory.getValidUserDetailsDtoWithId;
 import static com.iprody.user.profile.controller.DummyUserFactory.getValidUserDto;
@@ -29,6 +33,7 @@ import static org.mockito.Mockito.when;
  * @author Mikhail Sheludyakov
  */
 @WebFluxTest
+@Import(WebSecurityConfig.class)
 class UserProfileControllerTest {
 
     public static final String PATH_USERS = "/users";
@@ -45,21 +50,21 @@ class UserProfileControllerTest {
 
     @Test
     void createUserShouldReturnStatus201WhenSuccessful() {
-        when(userService.save(getValidUserDto())).thenReturn(Mono.just(getValidUserDtoWithId()));
+        when(userService.save(getValidCreateUserDto())).thenReturn(Mono.just(getValidUserDtoWithId()));
 
         webTestClient
                 .post()
                 .uri(PATH_USERS)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(getValidUserDto()))
+                .body(BodyInserters.fromValue(getValidCreateUserDto()))
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody(UserDto.class).isEqualTo(getValidUserDtoWithId());
     }
 
     @ParameterizedTest
-    @MethodSource("com.iprody.user.profile.controller.DummyUserFactory#getInvalidUserDtoArguments")
-    void createInvalidUserShouldReturnStatus400(UserDto userDto) {
+    @MethodSource("com.iprody.user.profile.controller.DummyUserFactory#getInvalidUserCreateDtoArguments")
+    void createInvalidUserShouldReturnStatus400(CreateUserRequest userDto) {
         webTestClient
                 .post()
                 .uri(PATH_USERS)

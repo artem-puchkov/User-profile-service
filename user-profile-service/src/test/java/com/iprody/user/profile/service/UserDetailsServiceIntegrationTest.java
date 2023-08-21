@@ -80,8 +80,8 @@ class UserDetailsServiceIntegrationTest {
     void findUserDetailsSuccess() {
         final UserDetailsDto expectedDto = UserDetailsDto.builder()
                 .id(USER_DETAILS_ID)
-                .telegramId("@user")
-                .mobilePhone("+111111")
+                .telegramId("gregtg")
+                .mobilePhone("+1234567890")
                 .userId(USER_ID)
                 .build();
 

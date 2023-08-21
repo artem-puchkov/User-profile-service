@@ -4,7 +4,7 @@ import com.iprody.user.profile.e2e.cucumber.HttpClientExceptionHandler;
 import com.iprody.user.profile.e2e.cucumber.TestContextStorage;
 import com.iprody.user.profile.e2e.cucumber.UserProfileApiModelMapper;
 import com.iprody.user.profile.e2e.generated.api.UserProfileControllerApi;
-import com.iprody.user.profile.e2e.generated.model.UserDto;
+import com.iprody.user.profile.e2e.generated.model.CreateUserRequest;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.When;
 import lombok.AccessLevel;
@@ -25,13 +25,14 @@ public class CreateUserStep {
 
     /**
      * Accept dataTable in feature file and update storage.
+     *
      * @param dataTable - userDto parameters in feature file
      */
     @When("a client wants create user with parameters:")
     public void aClientWantCreateUserWithMandatoryParameters(DataTable dataTable) {
-        final UserDto userDto = UserProfileApiModelMapper.toUserDto(dataTable);
+        final CreateUserRequest request = UserProfileApiModelMapper.toCreateUserRequest(dataTable);
         final var response = HttpClientExceptionHandler.sendRequest(
-                () -> userProfileApi.createUserWithHttpInfo(userDto));
+                () -> userProfileApi.createUserWithHttpInfo(request));
         TestContextStorage.setResponseContext(response);
     }
 }

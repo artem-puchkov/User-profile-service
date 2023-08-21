@@ -1,16 +1,19 @@
 package com.iprody.user.profile.service;
 
+import com.iprody.user.profile.dto.CreateUserRequest;
 import com.iprody.user.profile.dto.UserDto;
 import com.iprody.user.profile.entity.User;
 import com.iprody.user.profile.entity.UserDetails;
 import com.iprody.user.profile.persistence.UserRepository;
 import com.iprody.user.profile.util.ResourceNotFoundException;
 import com.iprody.user.profile.util.ResourceProcessingException;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,30 +31,33 @@ public class UserService {
     /**
      * UserRepository that this service interacts with.
      */
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
     /**
      * UserMapper for converting between UserDto and UserEntity.
      */
-    private final UserMapper userMapper;
+    private UserMapper userMapper;
+    /**
+     * Injection of password encoder.
+     */
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Saves a new User entity to the database if the provided email is not already in use.
      *
-     * @param userDto The UserDto object to be saved as a User entity.
+     * @param userRequest The CreateUserRequest object to be saved as a User entity.
      * @return Mono<UserDto> A Mono emitting the saved User entity as a UserDto object.
      */
-    public Mono<UserDto> save(UserDto userDto) {
-        return Mono.fromCallable(() -> userRepository.existsByEmail(userDto.email()))
-                .filter(existingUser -> !existingUser)
-                .map(noneExistingUser -> {
-                    final User userEntity = userMapper.toBusinessModel(userDto);
-                    final UserDetails userDetails = userEntity.getUserDetails();
-                    userDetails.setUser(userEntity);
-                    return userRepository.save(userEntity);
+    public Mono<UserDto> save(CreateUserRequest userRequest) {
+        return userRepository.existsByEmail(userRequest.email())
+                ? Mono.error(new ResourceProcessingException(USER_WITH_EMAIL_EXISTS.formatted(userRequest.email())))
+                : Mono.fromCallable(() -> {
+                    final User user = userMapper.toBusinessModel(userRequest);
+                    final UserDetails userDetails = user.getUserDetails();
+                    user.setPassword(passwordEncoder.encode(userRequest.password()));
+                    userDetails.setUser(user);
+                    return userRepository.save(user);
                 })
-                .map(userMapper::toDto)
-                .switchIfEmpty(Mono.error(new ResourceProcessingException(
-                        USER_WITH_EMAIL_EXISTS.formatted(userDto.email()))));
+                .map(userMapper::toDto);
     }
 
     /**

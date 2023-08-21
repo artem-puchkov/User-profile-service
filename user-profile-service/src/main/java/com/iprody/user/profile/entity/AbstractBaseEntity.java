@@ -1,8 +1,6 @@
 package com.iprody.user.profile.entity;
 
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,10 +44,4 @@ public abstract class AbstractBaseEntity {
      */
     @LastModifiedDate
     private Date updated;
-
-    /**
-     * Entity status.
-     */
-    @Enumerated(EnumType.STRING)
-    private Status status;
 }

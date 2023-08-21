@@ -15,7 +15,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
 import static com.iprody.user.profile.controller.DummyUserFactory.getUserDtoForUpdateWithLastNameNull;
-import static com.iprody.user.profile.controller.DummyUserFactory.getValidUserDtoForCreateWithEmailAlreadyExists;
+import static com.iprody.user.profile.controller.DummyUserFactory.getValidCreateUserDtoWithEmailAlreadyExists;
 import static com.iprody.user.profile.controller.DummyUserFactory.getValidUserDtoForUpdateWithIdNotPresent;
 
 @IProdyIntegrationTest
@@ -63,13 +63,13 @@ class UserProfileControllerIntegrationTest {
                 .post()
                 .uri(USERS)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(getValidUserDtoForCreateWithEmailAlreadyExists()))
+                .body(BodyInserters.fromValue(getValidCreateUserDtoWithEmailAlreadyExists()))
                 .exchange()
                 .expectStatus().is5xxServerError()
                 .expectBody()
                 .jsonPath(JSON_MESSAGE).isEqualTo("Error occurred during processing the resource")
                 .jsonPath(JSON_STATUS).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .jsonPath(JSON_DETAILS).isEqualTo("A user with email: test@test.com already exists.");
+                .jsonPath(JSON_DETAILS).isEqualTo("A user with email: housegregory213@gmail.com already exists.");
     }
 
     @Test

@@ -46,7 +46,7 @@ spring:
         show_sql: true
         format_sql: true
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master-test.yml
+    change-log: classpath:/db/changelog/db.changelog-e2e.yml
 server:
   error:
     include-message: always

@@ -1,5 +1,6 @@
 package com.iprody.user.profile.e2e.cucumber;
 
+import com.iprody.user.profile.e2e.generated.model.CreateUserRequest;
 import com.iprody.user.profile.e2e.generated.model.UserDetailsDto;
 import com.iprody.user.profile.e2e.generated.model.UserDto;
 import io.cucumber.datatable.DataTable;
@@ -49,6 +50,23 @@ public class UserProfileApiModelMapper {
         final UserDto userDto = toUserDto(dataTable);
         modifyFields.accept(userDto);
         return userDto;
+    }
+
+    public CreateUserRequest toCreateUserRequest(DataTable dataTable) {
+        final var entry = dataTable.asMap();
+        return CreateUserRequest.builder()
+                .id(entry.get("id") == null ? null : Long.valueOf(entry.get("id")))
+                .firstName(entry.get("firstName"))
+                .lastName(entry.get("lastName"))
+                .email(entry.get("email"))
+                .password(entry.get("password"))
+                .userDetailsDto(UserDetailsDto.builder()
+                        .id(entry.get("userDetails.id") == null ? null : Long.valueOf(entry.get("userDetails.id")))
+                        .mobilePhone(entry.get("userDetails.mobilePhone"))
+                        .telegramId(entry.get("userDetails.telegramId"))
+                        .userId(entry.get("userDetails.userId") == null ? null : Long.valueOf(entry.get("userDetails.userId")))
+                        .build())
+                .build();
     }
 
     /**

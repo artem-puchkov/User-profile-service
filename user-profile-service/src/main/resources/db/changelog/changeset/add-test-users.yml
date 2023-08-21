@@ -15,6 +15,9 @@ databaseChangeLog:
               - column:
                   name: email
                   value: housegregory213@gmail.com
+              - column:
+                  name: password
+                  value: "123456"
         - insert:
             tableName: users
             columns:
@@ -27,6 +30,9 @@ databaseChangeLog:
               - column:
                   name: email
                   value: marrolex@gmail.com
+              - column:
+                  name: password
+                  value: "123456"
         - insert:
             tableName: users
             columns:
@@ -39,6 +45,9 @@ databaseChangeLog:
               - column:
                   name: email
                   value: jamewilliams@gmail.com
+              - column:
+                  name: password
+                  value: "123456"
   - changeSet:
       id: 2
       author: Artem

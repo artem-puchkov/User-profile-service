@@ -35,6 +35,10 @@ public class User extends AbstractBaseEntity {
      */
     private String email;
     /**
+     * Encoded user's password.
+     */
+    private String password;
+    /**
      * Table user_details have user_id FK that references user.id.
      */
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

@@ -43,3 +43,4 @@ out/
 /e2e/reports/
 /.gradle/
 **/*/pgdata_e2e
+**/.env
