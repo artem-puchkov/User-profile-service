@@ -1,6 +1,5 @@
 package com.iprody.user.profile.e2e.cucumber;
 
-import javax.net.ssl.SSLContext;
 import lombok.SneakyThrows;
 import org.apache.hc.client5.http.config.TlsConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -19,6 +18,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+
+import javax.net.ssl.SSLContext;
 
 /**
  * Configuration class for create SSL-enabled RestTemplate bean to use in generated class.

@@ -1,10 +1,14 @@
-Feature: Find User
+Feature: Login User
 
   Background:
     Given User Profile Service is up and running
-    And User endpoint "/users/{id}" with http method "GET" available
+    And User endpoint "/auth" with http method "POST" available
 
-  Scenario: Find user successfully
+  Scenario: Login with valid email and password
+    When a client wants login with email "jamewilliams@gmail.com" and password "123456"
+    Then response code is 200
+    And response body contains access token and refresh token
+    And a client adds a Authorization header from response
     When a client wants to find a user with id 3
     Then response code is 200
     And response body contains:
@@ -16,11 +20,4 @@ Feature: Find User
       | userDetails.mobilePhone | +1234567663            |
       | userDetails.userId      | 3                      |
       | userDetails.id          | 3                      |
-
-  Scenario: Client error while no user found
-    When a client wants to find a user with id 100
-    Then response code is 404
-    And response body contains:
-      | status  | 404                        |
-      | message | Resource was not found     |
-      | details | No user found with id: 100 |
+    And Clear Authorization header for other tests

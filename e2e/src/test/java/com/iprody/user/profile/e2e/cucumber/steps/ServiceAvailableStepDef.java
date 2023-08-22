@@ -2,6 +2,7 @@ package com.iprody.user.profile.e2e.cucumber.steps;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.iprody.user.profile.e2e.cucumber.JsonSerializationHelper;
+import com.iprody.user.profile.e2e.cucumber.TestContextStorage;
 import com.iprody.user.profile.e2e.generated.api.ActuatorApi;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -40,6 +41,7 @@ public final class ServiceAvailableStepDef {
      */
     @And("User endpoint {string} with http method {string} available")
     public void userEndpointAvailable(String url, String httpMethod) {
+        actuatorApi.getApiClient().setBearerToken(TestContextStorage.getAccessToken());
         final var mappings = actuatorApi.mappings();
         final var actualEndpoints = jsonHelper.getObjectAsNode(mappings)
                 .get("contexts")

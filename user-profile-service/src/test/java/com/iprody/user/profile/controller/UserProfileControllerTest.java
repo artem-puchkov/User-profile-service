@@ -1,9 +1,13 @@
 package com.iprody.user.profile.controller;
 
+import com.iprody.user.profile.config.CustomServerAuthEntryPoint;
 import com.iprody.user.profile.config.WebSecurityConfig;
 import com.iprody.user.profile.dto.CreateUserRequest;
 import com.iprody.user.profile.dto.UserDetailsDto;
 import com.iprody.user.profile.dto.UserDto;
+import com.iprody.user.profile.security.JwtAuthenticationManager;
+import com.iprody.user.profile.security.JwtService;
+import com.iprody.user.profile.service.JwtAuthenticationService;
 import com.iprody.user.profile.service.UserDetailsService;
 import com.iprody.user.profile.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -15,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -49,8 +54,17 @@ class UserProfileControllerTest {
     private UserService userService;
     @MockBean
     private UserDetailsService userDetailsService;
+    @MockBean
+    private JwtAuthenticationService jwtAuthenticationService;
+    @MockBean
+    private JwtService jwtService;
+    @MockBean
+    private JwtAuthenticationManager jwtAuthenticationManager;
+    @MockBean
+    private CustomServerAuthEntryPoint customServerAuthEntryPoint;
 
     @Test
+    @WithMockUser
     void createUserShouldReturnStatus201WhenSuccessful() {
         when(userService.save(getValidCreateUserDto())).thenReturn(Mono.just(getValidUserDtoWithId()));
 
@@ -65,6 +79,7 @@ class UserProfileControllerTest {
     }
 
     @ParameterizedTest
+    @WithMockUser
     @MethodSource("com.iprody.user.profile.controller.DummyUserFactory#getInvalidUserCreateDtoArguments")
     void createInvalidUserShouldReturnStatus400(CreateUserRequest userDto) {
         webTestClient
@@ -77,6 +92,7 @@ class UserProfileControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateUserShouldReturnStatus200WhenSuccessful() {
         when(userService.updateUser(any(UserDto.class)))
                 .thenReturn(Mono.just(getValidUserDtoWithId()));
@@ -92,6 +108,7 @@ class UserProfileControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateUserShouldReturnStatus404WhenUserDoesNotExist() {
         when(userService.updateUser(any(UserDto.class)))
                 .thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
@@ -107,6 +124,7 @@ class UserProfileControllerTest {
 
     @ParameterizedTest
     @MethodSource("com.iprody.user.profile.controller.DummyUserFactory#getInvalidUserDtoArguments")
+    @WithMockUser
     void updateUserWithInvalidArgumentsShouldReturnStatus400(UserDto userDto) {
         webTestClient
                 .put()
@@ -118,6 +136,7 @@ class UserProfileControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateUserDetailsShouldReturnStatus200WhenSuccessful() {
         when(userDetailsService.update(any(UserDetailsDto.class)))
                 .thenReturn(Mono.just(getValidUserDetailsDtoWithId()));
@@ -133,6 +152,7 @@ class UserProfileControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateUserDetailsShouldReturnStatus404WhenNotFound() {
         when(userDetailsService.update(any(UserDetailsDto.class)))
                 .thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
@@ -148,6 +168,7 @@ class UserProfileControllerTest {
 
     @ParameterizedTest
     @MethodSource("com.iprody.user.profile.controller.DummyUserFactory#getInvalidUserDetailsDtoArguments")
+    @WithMockUser
     void updateUserDetailsWithInvalidArgumentsShouldReturnStatus400(UserDetailsDto userDetailsDto) {
         webTestClient
                 .put()
@@ -159,6 +180,7 @@ class UserProfileControllerTest {
     }
 
     @Test
+    @WithMockUser
     void findUserShouldReturnStatus200WhenSuccessful() {
         when(userService.findUser(anyLong()))
                 .thenReturn(Mono.just(getValidUserDtoWithId()));
@@ -172,6 +194,7 @@ class UserProfileControllerTest {
     }
 
     @Test
+    @WithMockUser
     void findUserShouldReturnStatus404WhenNotFound() {
         when(userService.findUser(anyLong()))
                 .thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
@@ -184,6 +207,7 @@ class UserProfileControllerTest {
     }
 
     @Test
+    @WithMockUser
     void findUserDetailsShouldReturnStatus200WhenSuccessful() {
         when(userDetailsService.findByUserId(anyLong()))
                 .thenReturn(Mono.just(getValidUserDetailsDtoWithId()));
@@ -197,6 +221,7 @@ class UserProfileControllerTest {
     }
 
     @Test
+    @WithMockUser
     void findUserDetailsShouldReturnStatus404WhenNotFound() {
         when(userDetailsService.findByUserId(anyLong()))
                 .thenReturn(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));

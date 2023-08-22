@@ -2,6 +2,7 @@ package com.iprody.user.profile.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 /**
  * User Entity.
@@ -43,4 +46,10 @@ public class User extends AbstractBaseEntity {
      */
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserDetails userDetails;
+
+    /**
+     * Table jwt_tokens have user_id FK that references user.id.
+     */
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 }

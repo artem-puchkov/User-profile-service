@@ -1,5 +1,6 @@
 package com.iprody.user.profile.e2e.cucumber;
 
+import com.iprody.user.profile.e2e.generated.model.AuthenticationResponse;
 import com.iprody.user.profile.e2e.generated.model.UserDetailsDto;
 import com.iprody.user.profile.e2e.generated.model.UserDto;
 import lombok.experimental.UtilityClass;
@@ -11,6 +12,10 @@ import org.springframework.http.ResponseEntity;
 @UtilityClass
 public class TestContextStorage {
 
+    /**
+     * Thread safe storage for Authenticate response.
+     */
+    private final ThreadLocal<ResponseEntity<Object>> authenticationContext = new ThreadLocal<>();
     /**
      * Thread safe storage for response.
      */
@@ -28,6 +33,31 @@ public class TestContextStorage {
      */
     public ThreadLocal<ResponseEntity<Object>> getResponseContext() {
         return responseContext;
+    }
+
+    /**
+     * Return Authentication Response stored in the same thread.
+     *
+     * @return - ResponseEntity with body(UserDto or ApiError) and Http status
+     */
+    public ThreadLocal<ResponseEntity<Object>> getAuthenticationContext() {
+        return authenticationContext;
+    }
+
+    /**
+     * Save Authentication Response in thread safe storage.
+     *
+     * @param context - ResponseEntity with body (userDto or ApiError)
+     */
+    public void setAuthenticationContext(ResponseEntity<?> context) {
+        TestContextStorage.authenticationContext.set((ResponseEntity<Object>) context);
+    }
+    /**
+     * Clear Authentication Context in Storage.
+     *
+     */
+    public void clearAuthenticationContext() {
+        TestContextStorage.authenticationContext.remove();
     }
 
     /**
@@ -57,6 +87,23 @@ public class TestContextStorage {
         return getResponseContext().get();
     }
 
+    /**
+     * Return generic responseBody stored in the same thread.
+     *
+     * @param <T> - type to cast responseBody
+     * @return - T responseBody
+     */
+    public <T> T getAuthentication() {
+        return (T) getAuthenticationContext().get().getBody();
+    }
+    /**
+     * Return accessToken.
+     *
+     * @return - String accessToken
+     */
+    public String getAccessToken() {
+        return ((AuthenticationResponse) getAuthentication()).getAccessToken();
+    }
     /**
      * Return generic responseBody stored in the same thread.
      *

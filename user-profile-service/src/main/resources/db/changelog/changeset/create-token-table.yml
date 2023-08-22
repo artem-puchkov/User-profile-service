@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-token-table
+      author: Alex
+      changes:
+        - createTable:
+            tableName: authentication_tokens
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: created
+                  type: timestamp
+              - column:
+                  name: updated
+                  type: timestamp
+              - column:
+                  name: token
+                  type: varchar(255)
+              - column:
+                  name: revoked
+                  type: boolean
+              - column:
+                  name: type
+                  type: varchar(30)

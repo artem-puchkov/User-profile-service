@@ -17,7 +17,7 @@ databaseChangeLog:
                   value: housegregory213@gmail.com
               - column:
                   name: password
-                  value: "123456"
+                  value: "$2a$10$xbe267.x/EN5Lz6b24Hhuehof8YPtjeXUe0u0V98TfohLy3YR2pj." # encoded in Base64 password "123456"
         - insert:
             tableName: users
             columns:
@@ -32,7 +32,7 @@ databaseChangeLog:
                   value: marrolex@gmail.com
               - column:
                   name: password
-                  value: "123456"
+                  value: "$2a$10$xbe267.x/EN5Lz6b24Hhuehof8YPtjeXUe0u0V98TfohLy3YR2pj." # encoded in Base64 password "123456"
         - insert:
             tableName: users
             columns:
@@ -47,7 +47,22 @@ databaseChangeLog:
                   value: jamewilliams@gmail.com
               - column:
                   name: password
-                  value: "123456"
+                  value: "$2a$10$xbe267.x/EN5Lz6b24Hhuehof8YPtjeXUe0u0V98TfohLy3YR2pj." # encoded in Base64 password "123456"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: first_name
+                  value: For
+              - column:
+                  name: last_name
+                  value: Jwt
+              - column:
+                  name: email
+                  value: jwt@gmail.com
+              - column:
+                  name: password
+                  value: "$2a$10$xbe267.x/EN5Lz6b24Hhuehof8YPtjeXUe0u0V98TfohLy3YR2pj." # encoded in Base64 password "123456"
   - changeSet:
       id: 2
       author: Artem
@@ -88,3 +103,15 @@ databaseChangeLog:
               - column:
                   name: mobile_phone
                   value: "+1234567663"
+        - insert:
+            tableName: user_details
+            columns:
+              - column:
+                  name: user_id
+                  value: 4
+              - column:
+                  name: telegram_id
+                  value: jwttoken
+              - column:
+                  name: mobile_phone
+                  value: "+1234567444"

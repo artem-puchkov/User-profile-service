@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Alex
+      changes:
+        - addColumn:
+            tableName: authentication_tokens
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: Alex
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: authentication_tokens
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_users_user_tokens
+            onDelete: cascade

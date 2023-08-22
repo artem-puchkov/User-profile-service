@@ -1,6 +1,7 @@
 package com.iprody.user.profile.controller;
 
 import com.iprody.user.profile.util.ApiError;
+import com.iprody.user.profile.util.BadCredentialsException;
 import com.iprody.user.profile.util.ResourceNotFoundException;
 import com.iprody.user.profile.util.ResourceProcessingException;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,10 @@ public class ExceptionHandlerController {
      * Error message if some validation errors occurred.
      */
     private static final String VALIDATION_ERROR = "Request validation error occurred";
+    /**
+     * Error message if login or password incorrect.
+     */
+    private static final String UNAUTHORIZED = "Unable to login.";
 
     /**
      * Methode that catch and handles exceptions when user specified an invalid id when updating some user's info
@@ -78,6 +83,22 @@ public class ExceptionHandlerController {
                 .stream().map(FieldError::getDefaultMessage).toList();
         final ApiError response = new ApiError(
                 VALIDATION_ERROR, details, HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.badRequest().body(response);
+    }
+
+    /**
+     * Methode that catch and handles exceptions that may have occurred while processing some resource. After that
+     * appends a message about error, details and status code.
+     *
+     * @param e expects an BadCredentialsException error to occur.
+     * @return ResponseEntity object that contains error message, details,
+     * status code and HttpStatus - Bad Request.
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiError> handleBadCredentialsException(BadCredentialsException e) {
+        final ApiError response = new ApiError(UNAUTHORIZED, Collections.singletonList(e.getMessage()),
+                HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.badRequest().body(response);
     }
 }

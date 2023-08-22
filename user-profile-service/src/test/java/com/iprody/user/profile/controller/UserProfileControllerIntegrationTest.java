@@ -1,12 +1,17 @@
 package com.iprody.user.profile.controller;
 
+import com.iprody.user.profile.dto.TokenType;
+import com.iprody.user.profile.security.JwtService;
 import com.iprody.user.profile.service.IProdyIntegrationTest;
+import com.iprody.user.profile.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -17,6 +22,7 @@ import org.testcontainers.junit.jupiter.Container;
 import static com.iprody.user.profile.controller.DummyUserFactory.getUserDtoForUpdateWithLastNameNull;
 import static com.iprody.user.profile.controller.DummyUserFactory.getValidCreateUserDtoWithEmailAlreadyExists;
 import static com.iprody.user.profile.controller.DummyUserFactory.getValidUserDtoForUpdateWithIdNotPresent;
+import static com.iprody.user.profile.controller.DummyUserFactory.getValidUserDtoWithEmailAlreadyExists;
 
 @IProdyIntegrationTest
 @AutoConfigureWebTestClient
@@ -32,8 +38,13 @@ class UserProfileControllerIntegrationTest {
     private static final String JSON_MESSAGE = "$.message";
     private static final String JSON_DETAILS = "$.details";
     private static final String JSON_STATUS = "$.status";
+    private static final String JSON_FIRST_NAME = "$.firstName";
+    private static final String JSON_EMAIL = "$.email";
+    private static final String NON_EXISTED_EMAIL = "nonexisted@email.com";
 
     private WebTestClient webTestClient;
+    private JwtService jwtService;
+    private TokenService tokenService;
 
     @DynamicPropertySource
     private static void postgresProperties(DynamicPropertyRegistry registry) {
@@ -43,6 +54,7 @@ class UserProfileControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void checkResourceNotFoundException404() {
         webTestClient
                 .put()
@@ -58,6 +70,7 @@ class UserProfileControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void checkResourceProcessingException500() {
         webTestClient
                 .post()
@@ -73,6 +86,7 @@ class UserProfileControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void checkWebExchangeBindException400() {
         webTestClient
                 .put()
@@ -85,5 +99,35 @@ class UserProfileControllerIntegrationTest {
                 .jsonPath(JSON_MESSAGE).isEqualTo("Request validation error occurred")
                 .jsonPath(JSON_DETAILS).isEqualTo("Last name should not be empty")
                 .jsonPath(JSON_STATUS).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void checkUnauthoraizeStatusWithoutToken() {
+        webTestClient
+                .put()
+                .uri(UPDATE_USER_1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(getUserDtoForUpdateWithLastNameNull()))
+                .exchange()
+                .expectStatus().isUnauthorized()
+                .expectBody()
+                .jsonPath(JSON_STATUS).isEqualTo("401")
+                .jsonPath(JSON_MESSAGE).isEqualTo("UNAUTHORIZED")
+                .jsonPath(JSON_DETAILS).isEqualTo("Not Authenticated");
+    }
+
+    @Test
+    void checkFindExistedUserWithAuthorizeSuccess() {
+        final String token = jwtService.generateAccessToken(getValidUserDtoWithEmailAlreadyExists().email());
+        tokenService.save(token, getValidUserDtoWithEmailAlreadyExists().email(), TokenType.ACCESS);
+        webTestClient
+                .get()
+                .uri("/users/{id}", 1L)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath(JSON_FIRST_NAME).isEqualTo(getValidUserDtoWithEmailAlreadyExists().firstName())
+                .jsonPath(JSON_EMAIL).isEqualTo(getValidUserDtoWithEmailAlreadyExists().email());
     }
 }

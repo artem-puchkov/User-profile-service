@@ -21,6 +21,18 @@ final class DummyUserFactory {
      */
     private static final String FIRSTNAME = "firstname";
     /**
+     * User valid firstname.
+     */
+    private static final String FIRSTNAME_OF_USER_1 = "Gregory";
+    /**
+     * User valid lastname.
+     */
+    private static final String LASTNAME_OF_USER_1 = "House";
+    /**
+     * User valid telegramId;.
+     */
+    private static final String TELEGRAM_OF_USER_1 = "gregtg";
+    /**
      * User valid lastname.
      */
     private static final String LASTNAME = "lastname";
@@ -126,6 +138,18 @@ final class DummyUserFactory {
                 .lastName(LASTNAME)
                 .email(MAIL_OF_USER_1)
                 .password(PASSWORD)
+                .userDetailsDto(getValidUserDetailsForUpdate())
+                .build();
+    }
+
+    /**
+     * @return Valid CreateUserDto for create with email already exists
+     */
+    public static UserDto getValidUserDtoWithEmailAlreadyExists() {
+        return UserDto.builder()
+                .firstName(FIRSTNAME_OF_USER_1)
+                .lastName(LASTNAME_OF_USER_1)
+                .email(MAIL_OF_USER_1)
                 .userDetailsDto(getValidUserDetailsForUpdate())
                 .build();
     }

@@ -31,6 +31,13 @@ server:
     key-store-password: ${KEY_STORE_PASSWORD}
     protocol: TLS
     enabled-protocols: ${TLS_PROTOCOL_VERSION}
+jwt:
+  secret: b5f59337a612a2a7dc07328f3e7d1a04722967c7f06df20a499a7d3f91ff2a7e
+  expiration: 1200
+  alg: HS256
+  refresh:
+    expiration: 604800
+
 ---
 spring:
   config:

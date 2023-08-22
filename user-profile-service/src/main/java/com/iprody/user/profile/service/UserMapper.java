@@ -22,6 +22,7 @@ public interface UserMapper {
     @Mapping(target = "userDetails.created", ignore = true)
     @Mapping(target = "userDetails.updated", ignore = true)
     @Mapping(target = "userDetails.user", ignore = true)
+    @Mapping(target = "tokens", ignore = true)
     User toBusinessModel(UserDto userDto);
 
     /**
@@ -39,6 +40,7 @@ public interface UserMapper {
     @Mapping(target = "userDetails.created", ignore = true)
     @Mapping(target = "userDetails.updated", ignore = true)
     @Mapping(target = "userDetails.user", ignore = true)
+    @Mapping(target = "tokens", ignore = true)
     User toBusinessModel(CreateUserRequest createUserRequest);
 
     /**

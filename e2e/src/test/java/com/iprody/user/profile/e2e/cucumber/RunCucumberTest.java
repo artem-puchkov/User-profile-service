@@ -1,9 +1,13 @@
 package com.iprody.user.profile.e2e.cucumber;
 
+import com.iprody.user.profile.e2e.generated.api.JwtAuthenticationControllerApi;
+import com.iprody.user.profile.e2e.generated.model.AuthenticationRequest;
+import io.cucumber.java.Before;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 

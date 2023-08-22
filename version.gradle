@@ -5,6 +5,7 @@ ext {
             'openapi': '6.6.0',
             'jacksonNullable': '0.2.1',
             'mapstruct'     : '1.5.5.Final',
-            'testcontainers': '1.18.3'
+            'testcontainers': '1.18.3',
+            'jjwt': '0.11.5'
     ]
 }

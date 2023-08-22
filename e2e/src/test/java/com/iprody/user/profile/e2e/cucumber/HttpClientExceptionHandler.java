@@ -3,6 +3,7 @@ package com.iprody.user.profile.e2e.cucumber;
 import com.iprody.user.profile.e2e.generated.model.ApiError;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientResponseException;
 
 import java.util.function.Supplier;
@@ -24,6 +25,9 @@ public class HttpClientExceptionHandler {
     public ResponseEntity<?> sendRequest(Supplier<ResponseEntity<?>> request) {
         try {
             return request.get();
+        }catch (HttpClientErrorException ex) {
+            final var apiError = ex.getResponseBodyAs(ApiError.class);
+            return ResponseEntity.status(ex.getStatusCode()).body(apiError);
         } catch (RestClientResponseException ex) {
             final var apiError = ex.getResponseBodyAs(ApiError.class);
             return ResponseEntity.status(ex.getStatusCode()).body(apiError);
