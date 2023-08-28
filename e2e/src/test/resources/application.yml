@@ -2,7 +2,7 @@ client-config:
   trust:
     store:
       password: secret
-      file: classpath:e2e_testing_keystore.p12
+      file: file:security/e2e_testing_keystore.p12
   timeout:
     duration: 30000
   tls:
