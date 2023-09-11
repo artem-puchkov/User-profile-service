@@ -4,7 +4,7 @@ Feature: Failed Access
     Given User Profile Service is up and running
     And User endpoint "/users/{id}" with http method "GET" available
 
-  Scenario: Access to secured endpoint withot jwt token
+  Scenario: Access to secured endpoint without jwt token
     Given client does not have a token
     When a client wants to find a user with id 3
     Then response code is 401
