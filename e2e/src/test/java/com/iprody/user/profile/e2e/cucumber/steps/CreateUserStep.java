@@ -4,7 +4,6 @@ import com.iprody.user.profile.e2e.cucumber.HttpClientExceptionHandler;
 import com.iprody.user.profile.e2e.cucumber.TestContextStorage;
 import com.iprody.user.profile.e2e.cucumber.UserProfileApiModelMapper;
 import com.iprody.user.profile.e2e.generated.api.UserProfileControllerApi;
-import com.iprody.user.profile.e2e.generated.model.AuthenticationResponse;
 import com.iprody.user.profile.e2e.generated.model.CreateUserRequest;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.When;
